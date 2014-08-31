@@ -1,0 +1,14 @@
+--- Variable type: Size in SRAM (bytes) ---
+uint8_t: 1
+boolean: 1
+char: 1
+unsigned char: 1
+byte: 1
+int: 2
+unsigned int: 2
+word: 2
+long: 4
+unsigned long: 4
+float: 4
+double: 4
+
