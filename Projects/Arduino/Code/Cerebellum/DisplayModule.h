@@ -2,7 +2,7 @@
 #define DISPLAY_MODULE_H
 
 #include "CommunicationDefinitions.h"
-#include <LiquidCrystal_I2C.h>
+#include <LiquidCrystal_I2C/LiquidCrystal_I2C.h>
 
 class DisplayModule
 {

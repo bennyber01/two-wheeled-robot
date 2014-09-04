@@ -1,4 +1,5 @@
 #include "cerebellum.h"
+#include <Servo.h>
 
 Cerebellum cerebellum;
 
