@@ -22,4 +22,7 @@ private:
     bool isInit;
 };
 
+inline bool IsReadData();
+inline bool IsSendData();
+
 #endif

@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "CommunicationDefinitions.h"
 #include "I2CCommunicationModule.h"
-#include <LiquidCrystal_I2C.h>
+#include <DisplayModule.h>
 
 #define I2C_ADDRESS 0x09
 
@@ -18,7 +18,7 @@ public:
     void LoopStep();
 
 private:
-    LiquidCrystal_I2C lcd;
+    DisplayModule disp;
 
     I2CCommunicationModule I2CComm;
 };

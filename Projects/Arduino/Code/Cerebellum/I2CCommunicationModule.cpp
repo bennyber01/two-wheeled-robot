@@ -1,35 +1,19 @@
 #include "I2CCommunicationModule.h"
 #include <Wire.h>
 
-byte * inpBuffer = NULL;
-long inpBufferSize = 0;
-long bytesRead = 0;
-char isNewData = 0;
+int  bytesToRead = 0;
+bool isSendData = false;
 
-byte * outBuffer = NULL;
-long outBufferSize = 0;
-long bytesSend = 0;
+inline bool IsReadData() { return bytesToRead > 0; }
+inline bool IsSendData() { return isSendData; };
 
 // function that executes whenever data is received from master
 // this function is registered as an event, see setup()
-void receiveEvent(int howMany)
-{
-    int bytesToRead = howMany;
-    if (bytesToRead > inpBufferSize)
-        bytesToRead = inpBufferSize;
-    for (int i = 0; i < bytesToRead; ++i)
-        inpBuffer[i] = Wire.read();
-    bytesRead = howMany;
-    isNewData = 1;
-}
+void receiveEvent(int howMany) { bytesToRead = howMany; }
 
 // function that executes whenever data is requested by master
 // this function is registered as an event, see setup()
-void requestEvent()
-{
-    Wire.write(outBuffer, outBufferSize);
-    bytesSend = outBufferSize;
-}
+void requestEvent() { isSendData = true; }
 
 I2CCommunicationModule::I2CCommunicationModule()  : isInit(false)
 {
@@ -55,7 +39,12 @@ bool I2CCommunicationModule::Wite(UCHAR * buff, LONG buffLen)
 {
     if (isInit)
     {
+        while(!isSendData)
+            delay(2);
 
+        Wire.write(buff, buffLen);
+        isSendData = false;
+        return true;
     }
     else
         return false;
@@ -63,9 +52,11 @@ bool I2CCommunicationModule::Wite(UCHAR * buff, LONG buffLen)
 
 bool I2CCommunicationModule::Read(UCHAR * buff, LONG buffLen)
 {
-    if (isInit)
+    if (isInit && IsReadData() && bytesToRead == buffLen)
     {
-
+        for (int i = 0; i < bytesToRead; ++i)
+            buff[i] = Wire.read();
+        return true;
     }
     else
         return false;
