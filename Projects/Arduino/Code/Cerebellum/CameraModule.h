@@ -2,7 +2,7 @@
 #define CAMERA_MODULE_H
 
 #include "CommunicationDefinitions.h"
-#include "Servo.h"
+#include <Servo.h>
 
 class CameraModule
 {
