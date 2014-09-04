@@ -652,6 +652,8 @@
 		<Compiler>
 			<Add directory="." />
 		</Compiler>
+		<Unit filename="CameraModule.cpp" />
+		<Unit filename="CameraModule.h" />
 		<Unit filename="Cerebellum.cpp" />
 		<Unit filename="Cerebellum.h" />
 		<Unit filename="CommunicationDefinitions.h" />
@@ -660,8 +662,14 @@
 		<Unit filename="GeneralDefinitions.h" />
 		<Unit filename="I2CCommunicationModule.cpp" />
 		<Unit filename="I2CCommunicationModule.h" />
-		<Unit filename="LiquidCrystal_I2C.cpp" />
-		<Unit filename="LiquidCrystal_I2C.h" />
+		<Unit filename="LiquidCrystal_I2C/LiquidCrystal_I2C.cpp" />
+		<Unit filename="LiquidCrystal_I2C/LiquidCrystal_I2C.h" />
+		<Unit filename="MotorsModule.cpp" />
+		<Unit filename="MotorsModule.h" />
+		<Unit filename="NewPing/NewPing.cpp" />
+		<Unit filename="NewPing/NewPing.h" />
+		<Unit filename="SensorsModule.cpp" />
+		<Unit filename="SensorsModule.h" />
 		<Unit filename="main.ino">
 			<Option compile="1" />
 			<Option link="1" />
