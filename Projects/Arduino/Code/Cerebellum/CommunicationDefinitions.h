@@ -20,24 +20,28 @@ enum CommunicationCommands
 
 struct MotorsSpeed
 {
+    MotorsSpeed() { memset(this, 0, sizeof(MotorsSpeed)); }
     UCHAR LMotorSpeed;
     UCHAR RMotorSpeed;
 };
 
 struct MotorsTicks
 {
+    MotorsTicks() { memset(this, 0, sizeof(MotorsTicks)); }
     LONG LMotorTick;
     LONG RMotorTick;
 };
 
 struct CameraPosition
 {
+    CameraPosition() { memset(this, 0, sizeof(CameraPosition)); }
     LONG azim;
     LONG elev;
 };
 
 struct FrontSensorsData
 {
+    FrontSensorsData() { memset(this, 0, sizeof(FrontSensorsData)); }
     FLOAT LSensorDist;       // left sensor
     FLOAT CSensorDist;       // center sensor
     FLOAT RSensorDist;       // right sensor
@@ -45,12 +49,14 @@ struct FrontSensorsData
 
 struct BumpersData
 {
+    BumpersData() { memset(this, 0, sizeof(BumpersData)); }
     UCHAR LBumper;
     UCHAR RBumper;
 };
 
 struct SonarData
 {
+    SonarData() { memset(this, 0, sizeof(SonarData)); }
     FLOAT dist;
 };
 
