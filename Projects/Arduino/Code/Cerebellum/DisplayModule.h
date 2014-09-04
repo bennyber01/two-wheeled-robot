@@ -37,6 +37,11 @@ private:
     FrontSensorsData frontSensorsData;
     BumpersData bumpersData;
     SonarData sonarData;
+
+    void ShowScreen0();
+    void ShowScreen1();
+    void ShowScreen2();
+    void ShowScreen3();
 };
 
 #endif

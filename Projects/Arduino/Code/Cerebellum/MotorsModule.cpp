@@ -25,8 +25,5 @@ MotorsSpeed MotorsModule::GetMotorsSpeed()
 
 MotorsTicks MotorsModule::GetMotorsTicks()
 {
-    static LONG c = 0;
-    motorsTicks.LMotorTick = c++;
-    motorsTicks.RMotorTick = c++;
     return motorsTicks;
 }

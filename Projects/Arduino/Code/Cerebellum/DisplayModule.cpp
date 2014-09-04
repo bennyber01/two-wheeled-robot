@@ -12,6 +12,31 @@ DisplayModule::~DisplayModule()
 
 void DisplayModule::UpdateScreen()
 {
+    switch (screenNum)
+    {
+        case 0:     ShowScreen0();      break;
+        case 1:     ShowScreen1();      break;
+        case 2:     ShowScreen2();      break;
+        case 3:     ShowScreen3();      break;
+    }
+}
+
+void DisplayModule::ShowScreen0()
+{
 
 }
 
+void DisplayModule::ShowScreen1()
+{
+
+}
+
+void DisplayModule::ShowScreen2()
+{
+
+}
+
+void DisplayModule::ShowScreen3()
+{
+
+}
