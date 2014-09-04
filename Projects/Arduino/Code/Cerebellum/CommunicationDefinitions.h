@@ -18,16 +18,16 @@ enum CommunicationCommands
     CC__COMMAND_EXECUTED
 };
 
-struct MotorsTicks
-{
-    LONG LMotorTick;
-    LONG RMotorTick;
-};
-
 struct MotorsSpeed
 {
     UCHAR LMotorSpeed;
     UCHAR RMotorSpeed;
+};
+
+struct MotorsTicks
+{
+    LONG LMotorTick;
+    LONG RMotorTick;
 };
 
 struct CameraPosition
