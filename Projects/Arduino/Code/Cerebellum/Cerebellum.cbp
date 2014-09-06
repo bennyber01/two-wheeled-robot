@@ -659,6 +659,7 @@
 		<Unit filename="CommunicationDefinitions.h" />
 		<Unit filename="DisplayModule.cpp" />
 		<Unit filename="DisplayModule.h" />
+		<Unit filename="DistanceSensorFilter.h" />
 		<Unit filename="GeneralDefinitions.h" />
 		<Unit filename="I2CCommunicationModule.cpp" />
 		<Unit filename="I2CCommunicationModule.h" />
