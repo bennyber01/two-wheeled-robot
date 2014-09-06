@@ -28,17 +28,30 @@ SensorsModule::~SensorsModule()
 
 void SensorsModule::Init()
 {
-
+    // no need to init alanog pins for input
+    // sonar pins are init in ping module
 }
 
 void SensorsModule::UpdateSensors()
 {
+    int val;
+
+    val = analogRead(FRONT_LEFT_DISTANCE_SENSOR_PIN);    // read the input pin
+    UpdateFrontLeftDistanceSensorFilter(val);
+
+    val = analogRead(FRONT_CENTER_DISTANCE_SENSOR_PIN);    // read the input pin
+    UpdateFrontCenterDistanceSensorFilter(val);
+
+    val = analogRead(FRONT_RIGHT_DISTANCE_SENSOR_PIN);    // read the input pin
+    UpdateFrontRightDistanceSensorFilter(val);
+
     // Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
-    int time_milisec = ;
-    if (time_milisec - lastSonarUpdateTime > 50)
+    unsigned long time_millisec = millis();
+    if (lastSonarUpdateTime < time_millisec - 50)
     {
         unsigned int uS = sonar.ping(); // Send ping, get ping time in microseconds (uS).
         UpdateSonarDistanceSensorFilter(uS);
+        lastSonarUpdateTime = time_millisec;
     }
 }
 

@@ -21,7 +21,7 @@ public:
 private:
     NewPing sonar;
 
-    int lastSonarUpdateTime;
+    unsigned long lastSonarUpdateTime;
 
     FrontSensorsData frontSensorsData;
     BumpersData bumpersData;
