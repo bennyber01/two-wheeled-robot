@@ -29,6 +29,8 @@ private:
     LiquidCrystal_I2C lcd;
 
     int screenNum;
+    unsigned long lastScreenChangeTime;
+    unsigned long lastScreenUpdateTime;
 
     char msg[MAX_MESSAGE_LEN];
     MotorsTicks motorsTicks;
