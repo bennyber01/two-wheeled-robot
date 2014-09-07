@@ -17,6 +17,7 @@ public:
     FrontSensorsData GetFrontSensorsData();
     BumpersData GetBumpersData();
     SonarData GetSonarData();
+    float GetCurrent();
 
 private:
     NewPing sonar;
@@ -26,16 +27,18 @@ private:
     FrontSensorsData frontSensorsData;
     BumpersData bumpersData;
     SonarData sonarData;
+    float currentVal;
 
     DistanceSensorFilter frontLeftDistanceSensorFilter;
     DistanceSensorFilter frontCenterDistanceSensorFilter;
     DistanceSensorFilter frontRightDistanceSensorFilter;
     DistanceSensorFilter sonarDistanceSensorFilter;
 
-    void UpdateFrontLeftDistanceSensorFilter(int val);
-    void UpdateFrontCenterDistanceSensorFilter(int val);
-    void UpdateFrontRightDistanceSensorFilter(int val);
-    void UpdateSonarDistanceSensorFilter(int val);
+    void UpdateFrontLeftDistanceSensorValue(int val);
+    void UpdateFrontCenterDistanceSensorValue(int val);
+    void UpdateFrontRightDistanceSensorValue(int val);
+    void UpdateSonarDistanceSensorValue(int val);
+    void UpdateCurrentValue(int val);
 };
 
 #endif
