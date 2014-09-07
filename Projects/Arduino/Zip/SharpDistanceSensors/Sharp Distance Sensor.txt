@@ -1,0 +1,60 @@
+2Y0A21 (10-80cm)
+This popular sensor made by Sharp produces an analog output that varies from 3.1V at 10cm to 0.3V at 80cm.
+The formula to translate SensorValue into Distance (the formula is only valid for a SensorValue between 80 to 500) is:
+Distance (cm) = 4800/(SensorValue - 20)
+
+
+2Y0A02 (20-150cm)
+This popular sensor made by Sharp produces an analog output that varies from 2.5V at 20cm to 0.4V at 150cm.
+The formula to translate SensorValue into Distance (the formula is only valid for a SensorValue between 80 to 490) is:
+Distance (cm) = 9462/(SensorValue - 16.92)
+
+2D120X (4-30cm)
+Distance (cm) = 1/(SensorValue + 0.42)
+
+--------------------------------------------------------------------------
+
+GP2Y0A21YK
+int i;
+int val;
+int redpin=0;
+void setup() {
+    pinMode(redpin,OUTPUT);
+    Serial.begin(9600);
+}
+void loop() {
+    i=analogRead(redpin);
+    val=(6762/(i-9))-4;
+    Serial.println(val);
+}
+
+--------------------------------------------------------------------------
+
+Sharp_sensor_gp2y0a21yk-library-f2d1488d968a.zip
+
+FOR ALL THAT USE THESE SENSORS:::::
+In the library, it says it’s in cenimeters but really it’s in inches
+I noticed this when attempting to use this on my robot
+I’m building and realized the data was coming nowhere close
+to the 80 cm the product page said it would—checked it with
+a tape measure and realized it was measured in inches
+rather than centimeters!!!!
+
+SAVE YOURSELF THE HASSLE!!! remember this fact!!!
+
+--------------------------------------------------------------------------
+
+Said that it works with Sharp GP2Y0A02
+
+int IRpin = 1;                                    // analog pin for reading the IR sensor
+
+void setup() {
+  Serial.begin(9600);                             // start the serial port
+}
+
+void loop() {
+  float volts = analogRead(IRpin)*0.0048828125;   // value from sensor * (5/1024) - if running 3.3.volts then change 5 to 3.3
+  float distance = 65*pow(volts, -1.10);          // worked out from graph 65 = theretical distance / (1/Volts)S - luckylarry.co.uk
+  Serial.println(distance);                       // print the distance
+  delay(100);                                     // arbitary wait time.
+}
