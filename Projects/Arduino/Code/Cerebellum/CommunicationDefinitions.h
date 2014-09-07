@@ -1,9 +1,23 @@
 #ifndef COMMUNICATION_DEFINITIONS_H
 #define COMMUNICATION_DEFINITIONS_H
 
-#include "GeneralDefinitions.h"
+#ifdef __AVR_ATmega328P__
+#include "ArduinoDefinitions.h"
+#endif
 
 #pragma pack(push, 1) // exact fit - no padding
+
+#ifndef LONG
+#define LONG long
+#endif
+
+#ifndef FLOAT
+#define FLOAT float
+#endif
+
+#ifndef UCHAR
+#define UCHAR unsigned char
+#endif
 
 enum CommunicationCommands
 {
