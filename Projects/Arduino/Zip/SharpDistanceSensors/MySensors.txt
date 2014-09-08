@@ -1,5 +1,21 @@
 My Sensors
 
+-------------------------------------------------------------
+
 GP2D12 F 9Z
+Sharp IR GP2Y0A21YK0F has the same distance range as a GP2D12
+
+R = (2914/(V+5))-1
+
+voltage= arduino_inp * 5 / 1023
+Distance = (1/voltage) – 0.42
+
+Using curve fitting in MATLAB we get:
+D(v) =  1.5290*V^4−13.7043*V^3+52.5578*V^2+112.8212*V+120.3399
+where:
+D(v): Distance as a function of output voltage
+V    : Output voltage
+
 
 2D120X F 1Z
+dist = (12.285/(voltage-0.097))-.42
