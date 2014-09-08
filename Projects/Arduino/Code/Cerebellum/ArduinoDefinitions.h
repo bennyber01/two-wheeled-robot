@@ -21,7 +21,7 @@ const int RS = 10;                              // Shunt resistor value (in ohms
 const int VOLTAGE_REF = 5;                      // Reference voltage for analog read
 
 // display pins
-#define DISPLAY_NEXT_SCREEN_PIN             8
+#define DISPLAY_NEXT_SCREEN_PIN             4
 
 // camera pins
 #define CAMERA_AZIM_PIN                     9

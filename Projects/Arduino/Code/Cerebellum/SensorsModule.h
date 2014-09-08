@@ -12,7 +12,7 @@ public:
     ~SensorsModule();
 
     void Init();
-    void UpdateSensors();
+    void Update();
 
     FrontSensorsData GetFrontSensorsData();
     BumpersData GetBumpersData();

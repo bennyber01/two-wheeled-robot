@@ -13,6 +13,11 @@ MotorsModule::~MotorsModule()
 
 }
 
+void MotorsModule::Update()
+{
+
+}
+
 void MotorsModule::SetMotorsSpeed(const MotorsSpeed & newSpeeds)
 {
     motorsSpeed = newSpeeds;

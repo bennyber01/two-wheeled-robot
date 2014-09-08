@@ -51,7 +51,7 @@ void SensorsModule::Init()
     // sonar pins are init in ping module
 }
 
-void SensorsModule::UpdateSensors()
+void SensorsModule::Update()
 {
     int val;
 

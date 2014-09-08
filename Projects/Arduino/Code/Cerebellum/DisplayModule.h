@@ -23,7 +23,7 @@ public:
 
     void ShowNextScreen() { screenNum = (screenNum + 1) % MAX_NUM_OF_SCREENS; }
 
-    void UpdateScreen();
+    void Update();
 
 private:
     LiquidCrystal_I2C lcd;

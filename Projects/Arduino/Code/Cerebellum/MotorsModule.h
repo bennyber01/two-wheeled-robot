@@ -9,6 +9,8 @@ public:
     MotorsModule();
     ~MotorsModule();
 
+    void Update();
+
     void SetMotorsSpeed(const MotorsSpeed & newSpeeds);
     MotorsSpeed GetMotorsSpeed();
 
