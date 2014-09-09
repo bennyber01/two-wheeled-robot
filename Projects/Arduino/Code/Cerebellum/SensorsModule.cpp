@@ -9,7 +9,7 @@ inline double ConvertAnalogValueToCM_SharpSensor(int val)
 {
     double volts = double(val) * 0.0048828125;      // value from sensor * (5/1024) - if running 3.3.volts then change 5 to 3.3
     //double distance = 65.0 * pow(volts, -1.10);      // worked out from graph 65 = theretical distance / (1/Volts)S - luckylarry.co.uk
-    double distance = 1.5290 * POW4(volts)+13.7043*POW3(volts)+52.5578*POW2(volts)+112.8212*volts+120.3399;
+    double distance = 1.5290 * POW4(volts)-13.7043*POW3(volts)+52.5578*POW2(volts)+112.8212*volts+120.3399;
     return distance;
 }
 
