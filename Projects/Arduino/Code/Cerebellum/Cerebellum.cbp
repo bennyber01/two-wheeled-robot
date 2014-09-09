@@ -671,6 +671,8 @@
 		<Unit filename="NewPing/NewPing.h" />
 		<Unit filename="SensorsModule.cpp" />
 		<Unit filename="SensorsModule.h" />
+		<Unit filename="fs_pow.cpp" />
+		<Unit filename="fs_pow.h" />
 		<Unit filename="main.ino">
 			<Option compile="1" />
 			<Option link="1" />
