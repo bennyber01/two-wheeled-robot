@@ -5,13 +5,14 @@
 
 #define I2C_MASTER -1
 
-class I2CCommunicationModule
+class I2CCommunicationModule : public ArduinoModule
 {
 public:
     I2CCommunicationModule();
     ~I2CCommunicationModule();
 
-    void Init(UCHAR address = I2C_MASTER);
+    void Init();
+    void Update() {}
 
     inline bool IsInit() { return isInit; }
 

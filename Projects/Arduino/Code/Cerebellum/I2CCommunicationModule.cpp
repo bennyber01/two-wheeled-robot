@@ -24,12 +24,9 @@ I2CCommunicationModule::~I2CCommunicationModule()
     isInit = false;
 }
 
-void I2CCommunicationModule::Init(UCHAR address)
+void I2CCommunicationModule::Init()
 {
-    if (address == I2C_MASTER)
-        Wire.begin();                   // Start I2C Bus as a Master
-    else
-        Wire.begin(address);            // Start I2C Bus as a Slave (Device Number I2C_ADDRESS)
+    Wire.begin(I2C_ADDRESS);            // Start I2C Bus as a Slave (Device Number I2C_ADDRESS)
     Wire.onReceive(receiveEvent);       // register event
     Wire.onRequest(requestEvent);       // register event
     isInit = true;
