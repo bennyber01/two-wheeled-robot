@@ -5,17 +5,17 @@
  * Updated            : Eric
  * Version            : V1.0.0
  * Date               : 2/22/2013
- * Description        : Test for Makeblock Electronic modules of Me - Lego 
- * Motor Bridge for driving 2 Lego Motors. 
- * In this case the module can ONLY be connected to 
+ * Description        : Test for Makeblock Electronic modules of Me - Lego
+ * Motor Bridge for driving 2 Lego Motors.
+ * In this case the module can ONLY be connected to
  * the PORT_1 and PORT_2 of Me - Base Shield.
  * License            : CC-BY-SA 3.0
  * Copyright (C) 2011 Hulu Robot Technology Co., Ltd. All right reserved.
  * http://www.makeblock.cc/
  **************************************************************************/
 
-#include<Me_I2cMaster.h>
-#include<Me_LegoMotor.h>
+#include<Me_LegoBridge/Me_I2cMaster.h>
+#include<Me_LegoBridge/Me_LegoMotor.h>
 
 // An instance of class for software master, using software I2C.
 Me_LegoMotor legoMotor(PORT_5);
@@ -89,7 +89,7 @@ void loop(void)
   currMotor1Status = legoMotor.Motor1GetDegreesStatus();
   delay(20);
   currMotor2Status = legoMotor.Motor2GetDegreesStatus();
-  
+
   if (motor1Status != currMotor1Status)
   {
     motor1Status = currMotor1Status;
