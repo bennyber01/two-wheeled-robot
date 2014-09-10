@@ -157,15 +157,12 @@ void DisplayModule::ShowScreen0()
 
 void DisplayModule::ShowScreen1()
 {
-    lcd.setCursor(0, 0);
-    lcd.print("Camera pos");
-
     lcd.setCursor(0, 1);
-    lcd.print("Azim: ");
+    lcd.print("Camera Azim: ");
     lcd.print(cameraPosition.azim);
 
     lcd.setCursor(0, 2);
-    lcd.print("Elev: ");
+    lcd.print("Camera Elev: ");
     lcd.print(cameraPosition.elev);
 
     lcd.setCursor(0, 3);
