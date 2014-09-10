@@ -5,7 +5,7 @@
 #include "DistanceSensorFilter.h"
 #include <NewPing/NewPing.h>
 
-class SensorsModule
+class SensorsModule : public ArduinoModule
 {
 public:
     SensorsModule();
