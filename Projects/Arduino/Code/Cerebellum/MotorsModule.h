@@ -3,12 +3,13 @@
 
 #include "CommunicationDefinitions.h"
 
-class MotorsModule
+class MotorsModule : public ArduinoModule
 {
 public:
     MotorsModule();
     ~MotorsModule();
 
+    void Init();
     void Update();
 
     void SetMotorsSpeed(const MotorsSpeed & newSpeeds);

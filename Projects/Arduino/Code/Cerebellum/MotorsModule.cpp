@@ -13,6 +13,11 @@ MotorsModule::~MotorsModule()
 
 }
 
+void MotorsModule::Init()
+{
+
+}
+
 void MotorsModule::Update()
 {
 
