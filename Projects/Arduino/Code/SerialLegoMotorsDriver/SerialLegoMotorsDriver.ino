@@ -1,3 +1,4 @@
+#include <Arduino.h>
 /*************************************************************************
  * File Name          : TestMotorBridge_light.ino
  * Author             : Eric
@@ -106,4 +107,4 @@ void loop(void)
 }
 
 
-
+
