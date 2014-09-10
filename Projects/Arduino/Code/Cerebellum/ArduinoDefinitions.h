@@ -27,4 +27,14 @@ const int VOLTAGE_REF = 5;                      // Reference voltage for analog 
 #define CAMERA_AZIM_PIN                     9
 #define CAMERA_ELEV_PIN                     10
 
+#define I2C_ADDRESS 0x09
+
+class ArduinoModule
+{
+public:
+    virtual ~ArduinoModule() = 0;
+    virtual void Init() = 0;
+    virtual void Update() = 0;
+};
+inline ArduinoModule::~ArduinoModule(){}
 #endif

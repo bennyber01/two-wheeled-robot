@@ -4,22 +4,20 @@
 #include "CommunicationDefinitions.h"
 #include <Servo.h>
 
-class CameraModule
+class CameraModule : public ArduinoModule
 {
 public:
     CameraModule();
     ~CameraModule();
 
-    void Init(int azimPin, int elevPin);
+    void Init();
+    void Update() {}
 
     void SetCameraPosition(const CameraPosition & newCamPos);
     CameraPosition GetCameraPosition();
 
 private:
     CameraPosition camPos;
-
-    int servoAzimPin;
-    int servoElevPin;
 
     Servo servoAzim;
     Servo servoElev;
