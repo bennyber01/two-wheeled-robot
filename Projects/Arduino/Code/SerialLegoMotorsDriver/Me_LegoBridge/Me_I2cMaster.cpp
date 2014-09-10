@@ -21,7 +21,7 @@
  * along with the Arduino I2cMaster Library.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-#include <Me_I2cMaster.h>
+#include <Me_LegoBridge/Me_I2cMaster.h>
 
 //==============================================================================
 // WARNING don't change Me_SoftI2cMaster unless you verify the change with a scope
@@ -34,7 +34,7 @@
  * \param[in] sclPin The software SCL pin number.
  */
   MePort_t mePort[9] = {{NC, NC}, {11, 10}, {3, 9}, {13, 12}, {2, 8},
-                      {A5, A4}, {A3, A2}, {A1,NC}, {A0, NC}}; 
+                      {A5, A4}, {A3, A2}, {A1,NC}, {A0, NC}};
 Me_SoftI2cMaster::Me_SoftI2cMaster(uint8_t sdaPin, uint8_t sclPin) {
   sdaPin_ = sdaPin;
   //sdaPin_ = 18;
@@ -53,7 +53,7 @@ Me_SoftI2cMaster::Me_SoftI2cMaster(uint8_t sdaPin, uint8_t sclPin) {
  * \return The byte read from the I2C bus.
  */
 uint8_t Me_SoftI2cMaster::read(uint8_t last) {
-  
+
   uint8_t b = 0;
   // make sure pull-up enabled
   digitalWrite(sdaPin_, HIGH);
@@ -88,15 +88,15 @@ bool Me_SoftI2cMaster::restart(uint8_t addressRW) {
   delayMicroseconds(I2C_DELAY_USEC);
   stop();
   delayMicroseconds(I2C_DELAY_USEC);
-  
+
   digitalWrite(sdaPin_, HIGH);
-  
+
   digitalWrite(sclPin_, LOW);
   delayMicroseconds(I2C_DELAY_USEC);
   digitalWrite(sclPin_, HIGH);
   delayMicroseconds(I2C_DELAY_USEC);
-  
-  
+
+
   e = start(addressRW);
   return e;
 }
@@ -112,7 +112,7 @@ bool Me_SoftI2cMaster::start(uint8_t addressRW) {
   digitalWrite(sdaPin_, LOW);
   delayMicroseconds(I2C_DELAY_USEC);
   digitalWrite(sclPin_, LOW);
-  
+
   return write(addressRW);
 }
 //------------------------------------------------------------------------------

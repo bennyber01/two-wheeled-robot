@@ -4,17 +4,17 @@
 * Updated            : Evan
 * Version            : V1.0.0
 * Date               : 4/18/2013
-* Description        : Class for Makeblock Electronic modules of Me -  Lego 
-                       Digital Bridge. The module is used to connect the NXT 
-                       Lego Motor Driver to Arduino. The module can only be 
-                       connected to the port 1, 2 of Me - Base Shield. One 
+* Description        : Class for Makeblock Electronic modules of Me -  Lego
+                       Digital Bridge. The module is used to connect the NXT
+                       Lego Motor Driver to Arduino. The module can only be
+                       connected to the port 1, 2 of Me - Base Shield. One
                        module can drive two Lego Motor.
 * License            : CC-BY-SA 3.0
 * Copyright (C) 2011 Hulu Robot Technology Co., Ltd. All right reserved.
 *******************************************************************************/
 
 #include <Arduino.h>
-#include <Me_I2cMaster.h>
+#include <Me_LegoBridge/Me_I2cMaster.h>
 
 
 #ifndef Me_LegoMotor_h
@@ -54,9 +54,9 @@ typedef enum
 }Me_Reset_Mode;
 
 //Speed Mode
-typedef enum 
+typedef enum
 {
-	Speed_Power_M1 = 0x81,   
+	Speed_Power_M1 = 0x81,
  	Speed_RPM_M1   = 0x83,
 	Speed_Power_M2 = 0x85,
 	Speed_RPM_M2   = 0x87
@@ -72,7 +72,7 @@ typedef enum
 	Duration_Degrees_M2 	= 0x97
 } Me_Duration_Mode;
 //Next action
-typedef enum 
+typedef enum
 {
 	Brake_M1 = 0x24,
 	Coast_M1 = 0x25,
@@ -80,10 +80,10 @@ typedef enum
 	Coast_M2 = 0x27
 } Me_Next_Action;
 //Wait
-typedef enum 
+typedef enum
 {
-  Completion_Dont_Wait = 0x00,  
- 	Completion_Wait_For  = 0x01  
+  Completion_Dont_Wait = 0x00,
+ 	Completion_Wait_For  = 0x01
  } Completion_Wait;
 
 class Me_LegoMotor
