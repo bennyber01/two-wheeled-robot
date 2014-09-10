@@ -9,16 +9,14 @@
 #include "MotorsModule.h"
 #include "SensorsModule.h"
 
-#define I2C_ADDRESS 0x09
-
-class Cerebellum
+class Cerebellum : public ArduinoModule
 {
 public:
     Cerebellum();
     ~Cerebellum();
 
     void Init();
-    void LoopStep();
+    void Update();
 
 private:
     DisplayModule disp;

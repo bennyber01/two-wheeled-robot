@@ -12,10 +12,14 @@ Cerebellum::~Cerebellum()
 
 void Cerebellum::Init()
 {
-    I2CComm.Init(I2C_ADDRESS);
+    disp.Init();
+    camera.Init();
+    motors.Init();
+    sensors.Init();
+    I2CComm.Init();
 }
 
-void Cerebellum::LoopStep()
+void Cerebellum::Update()
 {
     // update data from peripherals
     motors.Update();
