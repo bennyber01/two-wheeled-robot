@@ -29,24 +29,24 @@ long motor2Status = 0;
 
 void setup(void)
 {
-  legoMotor.begin();
-  legoMotor.Run(Speed_Power_M1,motorSpeed, Duration_Unlimited_M1,0,Completion_Dont_Wait);
-  legoMotor.Run(Speed_Power_M2,motorSpeed, Duration_Unlimited_M2,0,Completion_Dont_Wait);
-  legoMotor.Reset(Reset_Seconds_M1),
-  legoMotor.Reset(Reset_Seconds_M2);
-  legoMotor.Reset(Reset_Degrees_M1);
-  legoMotor.Reset(Reset_Degrees_M2);
-  Serial.begin(9600);           // start serial for output
+    legoMotor.begin();
+    legoMotor.Run(Speed_Power_M1,motorSpeed, Duration_Unlimited_M1,0,Completion_Dont_Wait);
+    legoMotor.Run(Speed_Power_M2,motorSpeed, Duration_Unlimited_M2,0,Completion_Dont_Wait);
+    legoMotor.Reset(Reset_Seconds_M1),
+    legoMotor.Reset(Reset_Seconds_M2);
+    legoMotor.Reset(Reset_Degrees_M1);
+    legoMotor.Reset(Reset_Degrees_M2);
+    Serial.begin(9600);           // start serial for output
 
-  motor1Status = legoMotor.Motor1GetDegreesStatus();
-  Serial.print("motor 1 status= '");
-  Serial.print(motor1Status);
-  Serial.println("'");
-  delay(100);
-  motor2Status = legoMotor.Motor2GetDegreesStatus();
-  Serial.print("motor 2 status= '");
-  Serial.print(motor2Status);
-  Serial.println("'");
+    motor1Status = legoMotor.Motor1GetDegreesStatus();
+    Serial.print("motor 1 status= '");
+    Serial.print(motor1Status);
+    Serial.println("'");
+    delay(100);
+    motor2Status = legoMotor.Motor2GetDegreesStatus();
+    Serial.print("motor 2 status= '");
+    Serial.print(motor2Status);
+    Serial.println("'");
 }
 void loop(void)
 {
@@ -58,52 +58,52 @@ void loop(void)
   //delay(1000);
 
 
-  if (Serial.available() > 0) {
-    motorSpeed = Serial.read();
-    motorSpeed = map(motorSpeed, 48, 57, -200, 200);
-    if (motorSpeed == 2777)//'s'
-      motorSpeed = 0;
-    if (motorSpeed == 2511)  //'m'
-    {
-      if (selectedMotor ==  1)
-        selectedMotor = 2;
-      else
-        selectedMotor = 1;
-      motorSpeed = 0;
+    if (Serial.available() > 0) {
+        motorSpeed = Serial.read();
+        motorSpeed = map(motorSpeed, 48, 57, -200, 200);
+        if (motorSpeed == 2777)//'s'
+            motorSpeed = 0;
+        if (motorSpeed == 2511)  //'m'
+        {
+            if (selectedMotor ==  1)
+                selectedMotor = 2;
+            else
+                selectedMotor = 1;
+            motorSpeed = 0;
+        }
+
+        if (selectedMotor == 1)
+            Serial.print("motor1Speed = '");
+        else
+            Serial.print("motor2Speed = '");
+        Serial.print(motorSpeed);
+        Serial.println("'");
+
+        if (selectedMotor == 1)
+            legoMotor.Run(Speed_Power_M1,motorSpeed, Duration_Unlimited_M1,0,Completion_Dont_Wait);
+        else
+            legoMotor.Run(Speed_Power_M2,motorSpeed, Duration_Unlimited_M2,0,Completion_Dont_Wait);
+        //delay(50);
     }
 
-    if (selectedMotor == 1)
-      Serial.print("motor1Speed = '");
-    else
-      Serial.print("motor2Speed = '");
-    Serial.print(motorSpeed);
-    Serial.println("'");
+    currMotor1Status = legoMotor.Motor1GetDegreesStatus();
+    delay(20);
+    currMotor2Status = legoMotor.Motor2GetDegreesStatus();
 
-    if (selectedMotor == 1)
-      legoMotor.Run(Speed_Power_M1,motorSpeed, Duration_Unlimited_M1,0,Completion_Dont_Wait);
-    else
-      legoMotor.Run(Speed_Power_M2,motorSpeed, Duration_Unlimited_M2,0,Completion_Dont_Wait);
-    //delay(50);
-  }
-
-  currMotor1Status = legoMotor.Motor1GetDegreesStatus();
-  delay(20);
-  currMotor2Status = legoMotor.Motor2GetDegreesStatus();
-
-  if (motor1Status != currMotor1Status)
-  {
-    motor1Status = currMotor1Status;
-    Serial.print("motor 1 status= '");
-    Serial.print(motor1Status);
-    Serial.println("'");
-  }
-  if (motor2Status != currMotor2Status)
-  {
-    motor2Status = currMotor2Status;
-    Serial.print("motor 2 status= '");
-    Serial.print(motor2Status);
-    Serial.println("'");
-  }
+    if (motor1Status != currMotor1Status)
+    {
+        motor1Status = currMotor1Status;
+        Serial.print("motor 1 status= '");
+        Serial.print(motor1Status);
+        Serial.println("'");
+    }
+    if (motor2Status != currMotor2Status)
+    {
+        motor2Status = currMotor2Status;
+        Serial.print("motor 2 status= '");
+        Serial.print(motor2Status);
+        Serial.println("'");
+    }
 }
 
 
