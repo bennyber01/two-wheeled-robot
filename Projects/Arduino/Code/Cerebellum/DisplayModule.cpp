@@ -115,7 +115,7 @@ void DisplayModule::Update()
 
     if (lastScreenUpdateTime < time - 400)
     {
-        if (screenNum != newScreenNum || isUpdateScr[newScreenNum])
+        if (screenNum != newScreenNum || isUpdateScr[screenNum])
         {
             screenNum = newScreenNum;
             lcd.clear();
