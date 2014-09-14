@@ -14,7 +14,20 @@
 *******************************************************************************/
 
 #include <Arduino.h>
-#include <Me_LegoBridge/Me_I2cMaster.h>
+#include <Wire.h>
+
+
+/** hardware I2C clock in Hz */
+uint32_t const F_TWI = 400000L;
+
+/** Delay used for software I2C */
+uint8_t const I2C_DELAY_USEC = 8;
+
+/** Bit to or with address for read start and read restart */
+uint8_t const I2C_READ = 1;
+
+/** Bit to or with address for write start and write restart */
+uint8_t const I2C_WRITE = 0;
 
 
 #ifndef Me_LegoMotor_h
@@ -113,6 +126,5 @@ public:
 	void Run(Me_Speed_Mode speed_mode,	int speed,	Me_Duration_Mode duration_mode,	uint32_t duration,	Completion_Wait wait_for_completion);
 private:
 	int port;
-	Me_SoftI2cMaster softI2cMaster;
 };
 #endif

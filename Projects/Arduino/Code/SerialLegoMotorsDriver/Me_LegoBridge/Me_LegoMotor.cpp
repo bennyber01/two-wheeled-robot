@@ -4,10 +4,10 @@
 * Updated            : Evan
 * Version            : V1.0.0
 * Date               : 4/18/2013
-* Description        : Class for Makeblock Electronic modules of Me -  Lego 
-                       Digital Bridge. The module is used to connect the NXT 
-                       Lego Motor Driver to Arduino. The module can only be 
-                       connected to the port 1, 2 of Me - Base Shield. One 
+* Description        : Class for Makeblock Electronic modules of Me -  Lego
+                       Digital Bridge. The module is used to connect the NXT
+                       Lego Motor Driver to Arduino. The module can only be
+                       connected to the port 1, 2 of Me - Base Shield. One
                        module can drive two Lego Motor.
 * License            : CC-BY-SA 3.0
 * Copyright (C) 2011 Hulu Robot Technology Co., Ltd. All right reserved.
@@ -15,22 +15,18 @@
 
 #include "Me_LegoMotor.h"
 //default port is PORT_1
-Me_LegoMotor::Me_LegoMotor():softI2cMaster(mePort[PORT_1].outsidePin, mePort[PORT_1].innersidePin)
+Me_LegoMotor::Me_LegoMotor()
 {
-	port = PORT_1;
+	port = -1;
 }
 
-Me_LegoMotor::Me_LegoMotor(int portNum):softI2cMaster(mePort[portNum].outsidePin, mePort[portNum].innersidePin)
+Me_LegoMotor::Me_LegoMotor(int portNum)
 {
 	port = portNum;
 }
 //initialize
 void Me_LegoMotor::begin()
 {
-	pinMode(mePort[port].innersidePin, OUTPUT);
-	pinMode(mePort[port].outsidePin, OUTPUT);
-	digitalWrite(mePort[port].innersidePin, HIGH);
-	digitalWrite(mePort[port].outsidePin, HIGH);
 	MotorSetPID(32,60,32);
 	Reset(Reset_Seconds_M1);
 	Reset(Reset_Seconds_M2);
@@ -41,61 +37,47 @@ void Me_LegoMotor::begin()
 //write a byte
 void Me_LegoMotor::writeByte(uint8_t Address, uint8_t dat)
 {
-	softI2cMaster.start(Address);
-	softI2cMaster.write(dat);
-	softI2cMaster.stop();
+	Wire.beginTransmission(Address);
+	Wire.write(dat);
+	Wire.endTransmission(Address);
 }
 //write a data
 void Me_LegoMotor::writeData(uint8_t slAddress, uint8_t dtAddress,uint8_t data)
 {
-	softI2cMaster.start(slAddress);
-	softI2cMaster.write(dtAddress);
-	softI2cMaster.stop();
-	
-	softI2cMaster.start(slAddress);
-	softI2cMaster.write(data);
-	softI2cMaster.stop();
+	writeByte(slAddress, dtAddress);
+	writeByte(slAddress, data);
 }
 
 //read a byte
 uint8_t Me_LegoMotor::readByte(uint8_t slAddress, uint8_t dtAddress)
 {
-	// issue a start condition, send device address and write direction bit
-  if (!softI2cMaster.start(slAddress | I2C_WRITE)) return -1;
+	Wire.beginTransmission(slAddress | I2C_WRITE);
+	Wire.write(dtAddress);
+	Wire.endTransmission(slAddress | I2C_READ);
 
-  // send the getting motor speed address
-  if (!softI2cMaster.write(dtAddress)) return -1;
+    // read data from the ultrasonic module
+    unsigned char mtSpeed = Wire.read();
 
-  // issue a repeated start condition, send device address and read direction bit
-  if (!softI2cMaster.restart(slAddress | I2C_READ)) return -1;
-  
- // int count = 1;
-  // read data from the ultrasonic module
-  unsigned char mtSpeed = softI2cMaster.read(1);
-
-  // issue a stop condition
-  softI2cMaster.stop();
-  return mtSpeed;
+    return mtSpeed;
 }
+
 //read int
 int Me_LegoMotor::readInt(uint8_t slAddress,uint8_t dtAddress)
 {
-	int data;
-	*((char *)(&data))   = readByte(slAddress, dtAddress);
-  *((char *)(&data)+1) = readByte(slAddress, dtAddress + 1);
-  //delay(50);
-  return data;
+    int data = 0;
+    *((char *)(&data))   = readByte(slAddress, dtAddress);
+    *((char *)(&data)+1) = readByte(slAddress, dtAddress + 1);
+    return data;
 }
 //read long
 long Me_LegoMotor::readLong(uint8_t slAddress,uint8_t dtAddress)
 {
-	long data;
-	*((char *)(&data))   = readByte(slAddress, dtAddress);
-  *((char *)(&data)+1) = readByte(slAddress, dtAddress + 1);
-  *((char *)(&data)+2) = readByte(slAddress, dtAddress + 2);
-  *((char *)(&data)+3) = readByte(slAddress, dtAddress + 3);
-  //delay(50);
-  return data;
+    int data = 0;
+    *((char *)(&data))   = readByte(slAddress, dtAddress);
+    *((char *)(&data)+1) = readByte(slAddress, dtAddress + 1);
+    *((char *)(&data)+2) = readByte(slAddress, dtAddress + 2);
+    *((char *)(&data)+3) = readByte(slAddress, dtAddress + 3);
+    return data;
 }
 
 /*Get status from the motors*/
@@ -106,13 +88,13 @@ int Me_LegoMotor::Motor1GetSpeedStatus()
   speed = readInt(SLAVE_ADDRESS, M1_Speed_Read);
   //delay(50);
   return speed;
-}	
+}
 int Me_LegoMotor::Motor2GetSpeedStatus()
-{	
+{
   int speed;
   speed = readInt(SLAVE_ADDRESS, M2_Speed_Read);
   return speed;
-}	
+}
 /*Get seconds stasus*/
 long Me_LegoMotor::Motor1GetSecondsStatus()
 {
@@ -174,7 +156,7 @@ void Me_LegoMotor::MotorSetDuration(Me_Duration_Mode duration_mode, uint32_t dur
 void Me_LegoMotor::MotorSetSpeedAndDuration(
 	Me_Speed_Mode speed_mode,
 	int speed,
-	Me_Duration_Mode duration_mode, 
+	Me_Duration_Mode duration_mode,
 	uint32_t duration)
 {
 	MotorSetSpeed(speed_mode, speed);
@@ -189,7 +171,7 @@ void Me_LegoMotor::Stop(Me_Next_Action next_action)
 void Me_LegoMotor::Run(
 	Me_Speed_Mode speed_mode,
 	int speed,
-	Me_Duration_Mode duration_mode, 
+	Me_Duration_Mode duration_mode,
 	uint32_t duration,
 	Completion_Wait wait_for_completion)
 {
@@ -206,4 +188,4 @@ void Me_LegoMotor::Run(
 		  delay(100);
 		}
 	}
-} 
+}
