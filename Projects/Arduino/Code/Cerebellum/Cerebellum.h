@@ -8,6 +8,7 @@
 #include "CameraModule.h"
 #include "MotorsModule.h"
 #include "SensorsModule.h"
+#include "RobotDefinitions.h"
 
 class Cerebellum : public ArduinoModule
 {
@@ -24,6 +25,8 @@ private:
     MotorsModule motors;
     SensorsModule sensors;
     I2CCommunicationModule I2CComm;
+
+    WheelsLocation robotWeelsLocation;
 };
 
 #endif
