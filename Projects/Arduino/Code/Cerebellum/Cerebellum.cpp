@@ -1,4 +1,5 @@
 #include "cerebellum.h"
+#include "robot_location_computation.h"
 
 Cerebellum::Cerebellum()
 {
@@ -25,8 +26,11 @@ void Cerebellum::Update()
     motors.Update();
     sensors.Update();
 
+    MotorsTicks motorsTicks = motors.GetMotorsTicks();
+    robotWeelsLocation = computeNewLocation(robotWeelsLocation, motorsTicks);
+
     // set relevent paramt to disp.
-    disp.Print(motors.GetMotorsTicks());
+    disp.Print(motorsTicks);
     disp.Print(motors.GetMotorsSpeed());
     disp.Print(camera.GetCameraPosition());
     disp.Print(sensors.GetFrontSensorsData());
