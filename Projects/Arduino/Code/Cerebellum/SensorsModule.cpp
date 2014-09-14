@@ -1,10 +1,9 @@
 #include "SensorsModule.h"
-#include "fs_pow.h"
 
 inline double ConvertAnalogValueToCM_SharpSensor(int val)
 {
     double volts = double(val) * 0.0048828125;      // value from sensor * (5/1024) - if running 3.3.volts then change 5 to 3.3
-    double distance = 65.0 * fs_pow(volts, -1.10);      // worked out from graph 65 = theretical distance / (1/Volts)S - luckylarry.co.uk
+    double distance = 65.0 * pow(volts, -1.10);      // worked out from graph 65 = theretical distance / (1/Volts)S - luckylarry.co.uk
 
     //double volts_2 = volts * volts;
     //double volts_3 = volts * volts_2;
