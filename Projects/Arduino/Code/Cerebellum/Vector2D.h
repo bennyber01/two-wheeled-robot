@@ -3,6 +3,8 @@
 
 #include <math.h>
 
+#pragma pack(push, 1) // exact fit - no padding
+
 struct Vector2D
 {
     Vector2D() : x(0), y(0)
@@ -124,5 +126,7 @@ struct Vector2D
 
 	double x, y;
 };
+
+#pragma pack(pop) //back to whatever the previous packing mode was
 
 #endif

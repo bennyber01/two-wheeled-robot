@@ -5,10 +5,14 @@
 
 #define WHEEL_RADIUS    7
 
+#pragma pack(push, 1) // exact fit - no padding
+
 struct WheelsLocation
 {
     Vector2D leftWheelLoc;
     Vector2D rightWheelLoc;
 };
+
+#pragma pack(pop) //back to whatever the previous packing mode was
 
 #endif

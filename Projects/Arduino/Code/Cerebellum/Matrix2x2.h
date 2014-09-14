@@ -4,6 +4,8 @@
 #include "Vector2D.h"
 #include "math.h"
 
+#pragma pack(push, 1) // exact fit - no padding
+
 struct Matrix2x2
 {
 	double a00, a01, a10, a11;
@@ -39,5 +41,7 @@ struct Matrix2x2
 		return result;
 	}
 };
+
+#pragma pack(pop) //back to whatever the previous packing mode was
 
 #endif
