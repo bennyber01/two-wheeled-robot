@@ -14,11 +14,11 @@
  * http://www.makeblock.cc/
  **************************************************************************/
 
-#include<Me_LegoBridge/Me_I2cMaster.h>
+#include <Wire.h>
 #include<Me_LegoBridge/Me_LegoMotor.h>
 
 // An instance of class for software master, using software I2C.
-Me_LegoMotor legoMotor(PORT_5);
+Me_LegoMotor legoMotor;
 
 int motorSpeed = 0;
 int selectedMotor = 1;

@@ -651,8 +651,6 @@
 		<Compiler>
 			<Add directory="." />
 		</Compiler>
-		<Unit filename="Me_LegoBridge/Me_I2cMaster.cpp" />
-		<Unit filename="Me_LegoBridge/Me_I2cMaster.h" />
 		<Unit filename="Me_LegoBridge/Me_LegoMotor.cpp" />
 		<Unit filename="Me_LegoBridge/Me_LegoMotor.h" />
 		<Unit filename="SerialLegoMotorsDriver.ino">
