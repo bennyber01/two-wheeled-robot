@@ -9,6 +9,7 @@
 
 struct WheelsLocation
 {
+    WheelsLocation() { memset(this, 0, sizeof(WheelsLocation)); }
     Vector2D leftWheelLoc;
     Vector2D rightWheelLoc;
 };
