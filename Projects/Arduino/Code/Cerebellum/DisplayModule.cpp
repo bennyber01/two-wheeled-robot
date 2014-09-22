@@ -4,6 +4,8 @@ uint8_t scr_0[8] = {B11111,B11111,B11111,B11011,B11111,B11111,B11111};
 uint8_t scr_1[8] = {B11111,B11111,B11011,B11111,B11011,B11111,B11111};
 uint8_t scr_2[8] = {B11111,B11111,B11011,B11111,B10101,B11111,B11111};
 uint8_t scr_3[8] = {B11111,B11111,B10101,B11111,B10101,B11111,B11111};
+uint8_t scr_4[8] = {B11111,B10101,B11111,B11011,B11111,B10101,B11111};
+uint8_t scr_5[8] = {B11111,B10101,B11111,B10101,B11111,B10101,B11111};
 
 uint8_t box_0[8] = {B11111,B10001,B10001,B10001,B10001,B10001,B11111};
 uint8_t box_1[8] = {B11111,B11111,B11111,B11111,B11111,B11111,B11111};
@@ -30,6 +32,9 @@ DisplayModule::DisplayModule() : lcd(0x27,20,4)  // set the LCD address to 0x27 
 
     screenNum = -1;
     newScreenNum = 0;
+
+    communicationErrors = CE__UNKNOWN_ERROR;
+    lastCommand = CC__VOID_COMMAND;
 }
 
 DisplayModule::~DisplayModule()
@@ -46,6 +51,8 @@ void DisplayModule::Init()
     lcd.createChar(1, scr_1);
     lcd.createChar(2, scr_2);
     lcd.createChar(3, scr_3);
+    lcd.createChar(4, scr_4);
+    lcd.createChar(5, scr_5);
     lcd.createChar(BUMPER_ON, box_1);
     lcd.createChar(BUMPER_OFF, box_0);
 
@@ -94,11 +101,32 @@ void DisplayModule::Print(const SonarData & data)
     sonarData = data;
 }
 
+void DisplayModule::Print(const WheelsLocation & loc)
+{
+    isUpdateScr[4] = wheelsLocation.leftWheelLoc.x  != loc.leftWheelLoc.x ||
+                     wheelsLocation.leftWheelLoc.y  != loc.leftWheelLoc.y ||
+                     wheelsLocation.rightWheelLoc.x != loc.rightWheelLoc.x ||
+                     wheelsLocation.rightWheelLoc.y != loc.rightWheelLoc.y;
+    wheelsLocation = loc;
+}
+
+void DisplayModule::Print(const CommunicationCommands & command)
+{
+    isUpdateScr[5] = lastCommand != command;
+    lastCommand = command;
+}
+
 void DisplayModule::Print(const char * newMsg)
 {
     isUpdateScr[3] = strncmp(msg, newMsg, MAX_MESSAGE_LEN) != 0;
     strncpy(msg, newMsg, MAX_MESSAGE_LEN);
     msg[MAX_MESSAGE_LEN-1] = 0;
+}
+
+void DisplayModule::Print(const CommunicationErrors & err)
+{
+    isUpdateScr[3] = communicationErrors != err;
+    communicationErrors = err;
 }
 
 void DisplayModule::Update()
@@ -125,6 +153,8 @@ void DisplayModule::Update()
                 case 1:     ShowScreen1();      break;
                 case 2:     ShowScreen2();      break;
                 case 3:     ShowScreen3();      break;
+                case 4:     ShowScreen4();      break;
+                case 5:     ShowScreen5();      break;
             }
             lcd.setCursor(19, 0);
             lcd.printByte(screenNum);
@@ -217,4 +247,68 @@ void DisplayModule::ShowScreen3()
     lcd.setCursor(0, 1);
     msg[MAX_MESSAGE_LEN-1]=0;
     lcd.print(msg);
+
+    lcd.setCursor(0, 2);
+    lcd.print("Communication Error:");
+
+    lcd.setCursor(0, 3);
+    switch (communicationErrors)
+    {
+        CE__SUCCESS:                lcd.print("SUCCESS");               break;
+        CE__MODULE_NOT_INIT:        lcd.print("MODULE_NOT_INIT");       break;
+        CE__UNKNOWN_COMMAND:        lcd.print("UNKNOWN_COMMAND");       break;
+        CE__UNKNOWN_ERROR:
+        default:                    lcd.print("CE__UNKNOWN_ERROR");
+    }
+}
+
+void DisplayModule::ShowScreen4()
+{
+    lcd.setCursor(0, 0);
+    lcd.print("Wheels Location:");
+
+    lcd.setCursor(0, 1);
+    lcd.print("L: (");
+    lcd.print(wheelsLocation.leftWheelLoc.x);
+    lcd.print(",");
+    lcd.print(wheelsLocation.leftWheelLoc.y);
+    lcd.print(")");
+
+    lcd.setCursor(0, 2);
+    lcd.print("R: (");
+    lcd.print(wheelsLocation.rightWheelLoc.x);
+    lcd.print(",");
+    lcd.print(wheelsLocation.rightWheelLoc.y);
+    lcd.print(")");
+
+    Vector2D pos = (wheelsLocation.leftWheelLoc + wheelsLocation.rightWheelLoc) * 0.5;
+
+    lcd.setCursor(0, 2);
+    lcd.print("Pos: (");
+    lcd.print(pos.x);
+    lcd.print(",");
+    lcd.print(pos.y);
+    lcd.print(")");
+}
+
+void DisplayModule::ShowScreen5()
+{
+    lcd.setCursor(0, 0);
+    lcd.print("Last Command:");
+
+    lcd.setCursor(0, 1);
+    switch (lastCommand)
+    {
+        CC__GET_MOTORS_TICKS:               lcd.print("GET_MOTORS_TICKS");              break;
+        CC__SET_MOTORS_SPEED:               lcd.print("SET_MOTORS_SPEED");              break;
+        CC__SET_CAMERA_AZIM:                lcd.print("SET_CAMERA_AZIM");               break;
+        CC__SET_CAMERA_ELEV:                lcd.print("SET_CAMERA_ELEV");               break;
+        CC__SET_CAMERA_POS:                 lcd.print("SET_CAMERA_POS");                break;
+        CC__GET_FRONT_SENSORS_READING:      lcd.print("GET_FRONT_SENSORS_READING");     break;
+        CC__GET_BUMPERS_READING:            lcd.print("GET_BUMPERS_READING");           break;
+        CC__GET_SONAR_READING:              lcd.print("GET_SONAR_READING");             break;
+        CC__COMMAND_EXECUTED:               lcd.print("COMMAND_EXECUTED");              break;
+        CC__VOID_COMMAND:
+        default:                            lcd.print("UNKNOWN_COMMAND");
+    }
 }

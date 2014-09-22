@@ -19,6 +19,14 @@
 #define UCHAR unsigned char
 #endif
 
+enum CommunicationErrors
+{
+    CE__SUCCESS,
+    CE__MODULE_NOT_INIT,
+    CE__UNKNOWN_COMMAND,
+    CE__UNKNOWN_ERROR
+};
+
 enum CommunicationCommands
 {
     CC__GET_MOTORS_TICKS,
@@ -29,7 +37,8 @@ enum CommunicationCommands
     CC__GET_FRONT_SENSORS_READING,
     CC__GET_BUMPERS_READING,
     CC__GET_SONAR_READING,
-    CC__COMMAND_EXECUTED
+    CC__COMMAND_EXECUTED,
+    CC__VOID_COMMAND
 };
 
 struct MotorsSpeed
