@@ -25,10 +25,7 @@ DisplayModule::DisplayModule() : lcd(0x27,20,4)  // set the LCD address to 0x27 
     lastScreenChangeTime = 0;
     lastScreenUpdateTime = 0;
 
-    isUpdateScr[0] = false;
-    isUpdateScr[1] = false;
-    isUpdateScr[2] = false;
-    isUpdateScr[3] = false;
+    memset(isUpdateScr, 0, sizeof(isUpdateScr));
 
     screenNum = -1;
     newScreenNum = 0;
@@ -61,72 +58,92 @@ void DisplayModule::Init()
 
 void DisplayModule::Print(const MotorsTicks & ticks)
 {
-    isUpdateScr[0] = motorsTicks.LMotorTick != ticks.LMotorTick ||
-                     motorsTicks.RMotorTick != ticks.RMotorTick;
+    bool isUpdate = motorsTicks.LMotorTick != ticks.LMotorTick ||
+                    motorsTicks.RMotorTick != ticks.RMotorTick;
+
     motorsTicks = ticks;
+    isUpdateScr[0] = isUpdate;
 }
 
 void DisplayModule::Print(const MotorsSpeed & speeds)
 {
-    isUpdateScr[0] = motorsSpeed.LMotorSpeed != speeds.LMotorSpeed ||
-                     motorsSpeed.RMotorSpeed != speeds.RMotorSpeed;
+    bool isUpdate = motorsSpeed.LMotorSpeed != speeds.LMotorSpeed ||
+                    motorsSpeed.RMotorSpeed != speeds.RMotorSpeed;
+
     motorsSpeed = speeds;
+    isUpdateScr[0] = isUpdate;
 }
 
 void DisplayModule::Print(const CameraPosition & camPos)
 {
-    isUpdateScr[1] = cameraPosition.azim != camPos.azim ||
-                     cameraPosition.elev != camPos.elev;
+    bool isUpdate = cameraPosition.azim != camPos.azim ||
+                    cameraPosition.elev != camPos.elev;
+
     cameraPosition = camPos;
+    isUpdateScr[1] = isUpdate;
 }
 
 void DisplayModule::Print(const FrontSensorsData & data)
 {
-    isUpdateScr[2] = frontSensorsData.LSensorDist != data.LSensorDist ||
-                     frontSensorsData.CSensorDist != data.CSensorDist ||
-                     frontSensorsData.RSensorDist != data.RSensorDist;
+    bool isUpdate = frontSensorsData.LSensorDist != data.LSensorDist ||
+                    frontSensorsData.CSensorDist != data.CSensorDist ||
+                    frontSensorsData.RSensorDist != data.RSensorDist;
+
     frontSensorsData = data;
+    isUpdateScr[2] = isUpdate;
 }
 
 void DisplayModule::Print(const BumpersData & data)
 {
-    isUpdateScr[2] = bumpersData.LBumper != data.LBumper ||
-                     bumpersData.RBumper != data.RBumper;
+    bool isUpdate = bumpersData.LBumper != data.LBumper ||
+                    bumpersData.RBumper != data.RBumper;
+
     bumpersData = data;
+    isUpdateScr[2] = isUpdate;
 }
 
 void DisplayModule::Print(const SonarData & data)
 {
-    isUpdateScr[1] = sonarData.dist != data.dist;
+    bool isUpdate = sonarData.dist != data.dist;
+
     sonarData = data;
+    isUpdateScr[1] = isUpdate;
 }
 
 void DisplayModule::Print(const WheelsLocation & loc)
 {
-    isUpdateScr[4] = wheelsLocation.leftWheelLoc.x  != loc.leftWheelLoc.x ||
-                     wheelsLocation.leftWheelLoc.y  != loc.leftWheelLoc.y ||
-                     wheelsLocation.rightWheelLoc.x != loc.rightWheelLoc.x ||
-                     wheelsLocation.rightWheelLoc.y != loc.rightWheelLoc.y;
+    bool isUpdate = wheelsLocation.leftWheelLoc.x  != loc.leftWheelLoc.x ||
+                    wheelsLocation.leftWheelLoc.y  != loc.leftWheelLoc.y ||
+                    wheelsLocation.rightWheelLoc.x != loc.rightWheelLoc.x ||
+                    wheelsLocation.rightWheelLoc.y != loc.rightWheelLoc.y;
+
     wheelsLocation = loc;
+    isUpdateScr[4] = isUpdate;
 }
 
 void DisplayModule::Print(const CommunicationCommands & command)
 {
-    isUpdateScr[5] = lastCommand != command;
+    bool isUpdate = lastCommand != command;
+
     lastCommand = command;
+    isUpdateScr[5] = isUpdate;
 }
 
 void DisplayModule::Print(const char * newMsg)
 {
-    isUpdateScr[3] = strncmp(msg, newMsg, MAX_MESSAGE_LEN) != 0;
+    bool isUpdate = strncmp(msg, newMsg, MAX_MESSAGE_LEN) != 0;
+
     strncpy(msg, newMsg, MAX_MESSAGE_LEN);
     msg[MAX_MESSAGE_LEN-1] = 0;
+    isUpdateScr[3] = isUpdate;
 }
 
 void DisplayModule::Print(const CommunicationErrors & err)
 {
-    isUpdateScr[3] = communicationErrors != err;
+    bool isUpdate = communicationErrors != err;
+
     communicationErrors = err;
+    isUpdateScr[3] = isUpdate;
 }
 
 void DisplayModule::Update()
