@@ -7,8 +7,8 @@ uint8_t scr_3[8] = {B11111,B11111,B10101,B11111,B10101,B11111,B11111};
 uint8_t scr_4[8] = {B11111,B10101,B11111,B11011,B11111,B10101,B11111};
 uint8_t scr_5[8] = {B11111,B10101,B11111,B10101,B11111,B10101,B11111};
 
-uint8_t box_0[8] = {B11111,B10001,B10001,B10001,B10001,B10001,B11111};
-uint8_t box_1[8] = {B11111,B11111,B11111,B11111,B11111,B11111,B11111};
+uint8_t box_0[8] = {B11111,B11111,B11111,B11111,B11111,B11111,B11111};
+uint8_t box_1[8] = {B11111,B10001,B10001,B10001,B10001,B10001,B11111};
 
 #define BUMPER_ON 6
 #define BUMPER_OFF 7
@@ -62,7 +62,7 @@ void DisplayModule::Print(const MotorsTicks & ticks)
                     motorsTicks.RMotorTick != ticks.RMotorTick;
 
     motorsTicks = ticks;
-    isUpdateScr[0] = isUpdate;
+    isUpdateScr[0] |= isUpdate;
 }
 
 void DisplayModule::Print(const MotorsSpeed & speeds)
@@ -71,7 +71,7 @@ void DisplayModule::Print(const MotorsSpeed & speeds)
                     motorsSpeed.RMotorSpeed != speeds.RMotorSpeed;
 
     motorsSpeed = speeds;
-    isUpdateScr[0] = isUpdate;
+    isUpdateScr[0] |= isUpdate;
 }
 
 void DisplayModule::Print(const CameraPosition & camPos)
@@ -80,7 +80,7 @@ void DisplayModule::Print(const CameraPosition & camPos)
                     cameraPosition.elev != camPos.elev;
 
     cameraPosition = camPos;
-    isUpdateScr[1] = isUpdate;
+    isUpdateScr[1] |= isUpdate;
 }
 
 void DisplayModule::Print(const FrontSensorsData & data)
@@ -90,7 +90,7 @@ void DisplayModule::Print(const FrontSensorsData & data)
                     frontSensorsData.RSensorDist != data.RSensorDist;
 
     frontSensorsData = data;
-    isUpdateScr[2] = isUpdate;
+    isUpdateScr[2] |= isUpdate;
 }
 
 void DisplayModule::Print(const BumpersData & data)
@@ -99,7 +99,7 @@ void DisplayModule::Print(const BumpersData & data)
                     bumpersData.RBumper != data.RBumper;
 
     bumpersData = data;
-    isUpdateScr[2] = isUpdate;
+    isUpdateScr[2] |= isUpdate;
 }
 
 void DisplayModule::Print(const SonarData & data)
@@ -107,7 +107,7 @@ void DisplayModule::Print(const SonarData & data)
     bool isUpdate = sonarData.dist != data.dist;
 
     sonarData = data;
-    isUpdateScr[1] = isUpdate;
+    isUpdateScr[1] |= isUpdate;
 }
 
 void DisplayModule::Print(const WheelsLocation & loc)
@@ -118,7 +118,7 @@ void DisplayModule::Print(const WheelsLocation & loc)
                     wheelsLocation.rightWheelLoc.y != loc.rightWheelLoc.y;
 
     wheelsLocation = loc;
-    isUpdateScr[4] = isUpdate;
+    isUpdateScr[4] |= isUpdate;
 }
 
 void DisplayModule::Print(const CommunicationCommands & command)
@@ -126,7 +126,7 @@ void DisplayModule::Print(const CommunicationCommands & command)
     bool isUpdate = lastCommand != command;
 
     lastCommand = command;
-    isUpdateScr[5] = isUpdate;
+    isUpdateScr[5] |= isUpdate;
 }
 
 void DisplayModule::Print(const char * newMsg)
@@ -135,7 +135,7 @@ void DisplayModule::Print(const char * newMsg)
 
     strncpy(msg, newMsg, MAX_MESSAGE_LEN);
     msg[MAX_MESSAGE_LEN-1] = 0;
-    isUpdateScr[3] = isUpdate;
+    isUpdateScr[3] |= isUpdate;
 }
 
 void DisplayModule::Print(const CommunicationErrors & err)
@@ -143,7 +143,7 @@ void DisplayModule::Print(const CommunicationErrors & err)
     bool isUpdate = communicationErrors != err;
 
     communicationErrors = err;
-    isUpdateScr[3] = isUpdate;
+    isUpdateScr[3] |= isUpdate;
 }
 
 void DisplayModule::Update()
