@@ -10,8 +10,8 @@ uint8_t scr_5[8] = {B11111,B10101,B11111,B10101,B11111,B10101,B11111};
 uint8_t box_0[8] = {B11111,B10001,B10001,B10001,B10001,B10001,B11111};
 uint8_t box_1[8] = {B11111,B11111,B11111,B11111,B11111,B11111,B11111};
 
-#define BUMPER_ON 4
-#define BUMPER_OFF 5
+#define BUMPER_ON 6
+#define BUMPER_OFF 7
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #define printByte(args)  write(args);
@@ -204,11 +204,11 @@ void DisplayModule::ShowScreen0()
 
 void DisplayModule::ShowScreen1()
 {
-    lcd.setCursor(0, 1);
+    lcd.setCursor(0, 0);
     lcd.print("Camera Azim: ");
     lcd.print(cameraPosition.azim);
 
-    lcd.setCursor(0, 2);
+    lcd.setCursor(0, 1);
     lcd.print("Camera Elev: ");
     lcd.print(cameraPosition.elev);
 
@@ -300,7 +300,7 @@ void DisplayModule::ShowScreen4()
 
     Vector2D pos = (wheelsLocation.leftWheelLoc + wheelsLocation.rightWheelLoc) * 0.5;
 
-    lcd.setCursor(0, 2);
+    lcd.setCursor(0, 3);
     lcd.print("Pos: (");
     lcd.print(pos.x);
     lcd.print(",");
