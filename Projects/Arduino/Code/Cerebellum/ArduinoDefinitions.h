@@ -8,11 +8,15 @@
 // I2C_SDA  A4
 // I2C_SCL  A5
 
+// Interrupt Pins: 2, 3
+
 // sensors pins
 #define FRONT_LEFT_DISTANCE_SENSOR_PIN      A0
 #define FRONT_CENTER_DISTANCE_SENSOR_PIN    A1
 #define FRONT_RIGHT_DISTANCE_SENSOR_PIN     A2
 #define CURRENT_SENSOR_PIN                  A3
+#define L_BUMPER_PIN                        7
+#define R_BUMPER_PIN                        8
 #define TRIGGER_PIN                         12  // Arduino pin tied to trigger pin on the ultrasonic sensor.
 #define ECHO_PIN                            11  // Arduino pin tied to echo pin on the ultrasonic sensor.
 
