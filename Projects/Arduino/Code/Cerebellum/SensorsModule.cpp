@@ -55,23 +55,35 @@ void SensorsModule::Init()
 {
     // no need to init alanog pins for input
     // sonar pins are init in ping module
+    pinMode(L_BUMPER_PIN, INPUT_PULLUP);
+    pinMode(R_BUMPER_PIN, INPUT_PULLUP);
 }
 
 void SensorsModule::Update()
 {
     int val;
 
+    bumpersData.LBumper = digitalRead(L_BUMPER_PIN);
+    delay(2);
+
     val = analogRead(FRONT_LEFT_DISTANCE_SENSOR_PIN);    // read the input pin
     UpdateFrontLeftDistanceSensorValue(val);
+    delay(2);
 
     val = analogRead(FRONT_CENTER_DISTANCE_SENSOR_PIN);    // read the input pin
     UpdateFrontCenterDistanceSensorValue(val);
+    delay(2);
 
     val = analogRead(FRONT_RIGHT_DISTANCE_SENSOR_PIN);    // read the input pin
     UpdateFrontRightDistanceSensorValue(val);
+    delay(2);
 
     val = analogRead(CURRENT_SENSOR_PIN);                 // read the input pin
     UpdateCurrentValue(val);
+    delay(2);
+
+    bumpersData.RBumper = digitalRead(R_BUMPER_PIN);
+    delay(2);
 
     // Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
     unsigned long time_millisec = millis();
@@ -81,6 +93,7 @@ void SensorsModule::Update()
         UpdateSonarDistanceSensorValue(uS);
         lastSonarUpdateTime = time_millisec;
     }
+    delay(2);
 }
 
 void SensorsModule::UpdateFrontLeftDistanceSensorValue(int val)
