@@ -61,68 +61,60 @@ void SensorsModule::Init()
 
 void SensorsModule::Update()
 {
-    int val;
-
     bumpersData.LBumper = digitalRead(L_BUMPER_PIN);
-    delay(2);
-
-    val = analogRead(FRONT_LEFT_DISTANCE_SENSOR_PIN);    // read the input pin
-    UpdateFrontLeftDistanceSensorValue(val);
-    delay(2);
-
-    val = analogRead(FRONT_CENTER_DISTANCE_SENSOR_PIN);    // read the input pin
-    UpdateFrontCenterDistanceSensorValue(val);
-    delay(2);
-
-    val = analogRead(FRONT_RIGHT_DISTANCE_SENSOR_PIN);    // read the input pin
-    UpdateFrontRightDistanceSensorValue(val);
-    delay(2);
-
-    val = analogRead(CURRENT_SENSOR_PIN);                 // read the input pin
-    UpdateCurrentValue(val);
-    delay(2);
-
+    //delay(2);
+    UpdateFrontLeftDistanceSensorValue();
+    //delay(2);
+    UpdateFrontCenterDistanceSensorValue();
+    //delay(2);
+    UpdateFrontRightDistanceSensorValue();
+    //delay(2);
+    UpdateCurrentValue();
+    //delay(2);
     bumpersData.RBumper = digitalRead(R_BUMPER_PIN);
-    delay(2);
+    //delay(2);
 
     // Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
     unsigned long time_millisec = millis();
     if (lastSonarUpdateTime < time_millisec - 50)
     {
-        unsigned int uS = sonar.ping(); // Send ping, get ping time in microseconds (uS).
-        UpdateSonarDistanceSensorValue(uS);
+        UpdateSonarDistanceSensorValue();
         lastSonarUpdateTime = time_millisec;
     }
     delay(2);
 }
 
-void SensorsModule::UpdateFrontLeftDistanceSensorValue(int val)
+void SensorsModule::UpdateFrontLeftDistanceSensorValue()
 {
+    int val = analogRead(FRONT_LEFT_DISTANCE_SENSOR_PIN);    // read the input pin
     int filteredVal = frontLeftDistanceSensorFilter.Filter(val);
     frontSensorsData.LSensorDist = ConvertAnalogValueToCM_SharpSensor(filteredVal);
 }
 
-void SensorsModule::UpdateFrontCenterDistanceSensorValue(int val)
+void SensorsModule::UpdateFrontCenterDistanceSensorValue()
 {
+    int val = analogRead(FRONT_CENTER_DISTANCE_SENSOR_PIN);    // read the input pin
     int filteredVal = frontCenterDistanceSensorFilter.Filter(val);
     frontSensorsData.CSensorDist = ConvertAnalogValueToCM_SharpSensor(filteredVal);
 }
 
-void SensorsModule::UpdateFrontRightDistanceSensorValue(int val)
+void SensorsModule::UpdateFrontRightDistanceSensorValue()
 {
-
+    int val = analogRead(FRONT_RIGHT_DISTANCE_SENSOR_PIN);    // read the input pin
     int filteredVal = frontRightDistanceSensorFilter.Filter(val);
     frontSensorsData.RSensorDist = ConvertAnalogValueToCM_SharpSensor(filteredVal);
 }
 
-void SensorsModule::UpdateSonarDistanceSensorValue(int val)
+void SensorsModule::UpdateSonarDistanceSensorValue()
 {
-    int filteredVal = sonarDistanceSensorFilter.Filter(val);
-    frontSensorsData.RSensorDist = ConvertAnalogValueToCM_SonarSensor(filteredVal);
+    unsigned int uS = sonar.ping(); // Send ping, get ping time in microseconds (uS).
+    int filteredVal = sonarDistanceSensorFilter.Filter(uS);
+    sonarData.dist = ConvertAnalogValueToCM_SonarSensor(filteredVal);
 }
 
-void SensorsModule::UpdateCurrentValue(int val)
+void SensorsModule::UpdateCurrentValue()
 {
+    int val = analogRead(CURRENT_SENSOR_PIN);                 // read the input pin
     currentVal = ConvertAnalogValueToAmpers(val);
 }
 
@@ -139,4 +131,9 @@ BumpersData SensorsModule::GetBumpersData()
 SonarData SensorsModule::GetSonarData()
 {
     return sonarData;
+}
+
+float SensorsModule::GetCurrent()
+{
+    return currentVal;
 }

@@ -34,11 +34,11 @@ private:
     DistanceSensorFilter frontRightDistanceSensorFilter;
     DistanceSensorFilter sonarDistanceSensorFilter;
 
-    void UpdateFrontLeftDistanceSensorValue(int val);
-    void UpdateFrontCenterDistanceSensorValue(int val);
-    void UpdateFrontRightDistanceSensorValue(int val);
-    void UpdateSonarDistanceSensorValue(int val);
-    void UpdateCurrentValue(int val);
+    void UpdateFrontLeftDistanceSensorValue();
+    void UpdateFrontCenterDistanceSensorValue();
+    void UpdateFrontRightDistanceSensorValue();
+    void UpdateSonarDistanceSensorValue();
+    void UpdateCurrentValue();
 };
 
 #endif
