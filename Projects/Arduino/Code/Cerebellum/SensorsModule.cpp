@@ -1,15 +1,19 @@
 #include "SensorsModule.h"
 
-inline double ConvertAnalogValueToCM_SharpSensor(int val)
+inline double ConvertAnalogValueToCM_SharpSensor_2D120X(int val)
 {
     double volts = double(val) * 0.0048828125;      // value from sensor * (5/1024) - if running 3.3.volts then change 5 to 3.3
-    double distance = 65.0 * pow(volts, -1.10);      // worked out from graph 65 = theretical distance / (1/Volts)S - luckylarry.co.uk
+    double distance = 2076.0 / (val - 11.0);
 
-    //double volts_2 = volts * volts;
-    //double volts_3 = volts * volts_2;
-    //double volts_4 = volts * volts_2;
-    //double distance = 1.5290*volts_4-13.7043*volts_3+52.5578*volts_2+112.8212*volts+120.3399;
+ //   double distance = -(3.078*pow(volts,5))+(29.645*pow(volts,4))-(110.68*pow(volts,3))+(201.94*pow(volts,2))-(186.84*pow(volts,1))+81.524;
 
+    return distance;
+}
+
+inline double ConvertAnalogValueToCM_SharpSensor_GP2D12(int val)
+{
+    double volts = double(val);// * 0.0048828125;      // value from sensor * (5/1024) - if running 3.3.volts then change 5 to 3.3
+    double distance = (6787.0 / (volts - 3.0)) - 4.0;
     return distance;
 }
 
@@ -88,21 +92,21 @@ void SensorsModule::UpdateFrontLeftDistanceSensorValue()
 {
     int val = analogRead(FRONT_LEFT_DISTANCE_SENSOR_PIN);    // read the input pin
     int filteredVal = frontLeftDistanceSensorFilter.Filter(val);
-    frontSensorsData.LSensorDist = ConvertAnalogValueToCM_SharpSensor(filteredVal);
+    frontSensorsData.LSensorDist = ConvertAnalogValueToCM_SharpSensor_GP2D12(filteredVal);
 }
 
 void SensorsModule::UpdateFrontCenterDistanceSensorValue()
 {
-    int val = analogRead(FRONT_CENTER_DISTANCE_SENSOR_PIN);    // read the input pin
+    int val = analogRead(FRONT_CENTER_DISTANCE_SENSOR_PIN) - 4;    // read the input pin
     int filteredVal = frontCenterDistanceSensorFilter.Filter(val);
-    frontSensorsData.CSensorDist = ConvertAnalogValueToCM_SharpSensor(filteredVal);
+    frontSensorsData.CSensorDist = ConvertAnalogValueToCM_SharpSensor_2D120X(filteredVal);
 }
 
 void SensorsModule::UpdateFrontRightDistanceSensorValue()
 {
-    int val = analogRead(FRONT_RIGHT_DISTANCE_SENSOR_PIN);    // read the input pin
+    int val = analogRead(FRONT_RIGHT_DISTANCE_SENSOR_PIN) - 15;    // read the input pin
     int filteredVal = frontRightDistanceSensorFilter.Filter(val);
-    frontSensorsData.RSensorDist = ConvertAnalogValueToCM_SharpSensor(filteredVal);
+    frontSensorsData.RSensorDist = ConvertAnalogValueToCM_SharpSensor_2D120X(filteredVal);
 }
 
 void SensorsModule::UpdateSonarDistanceSensorValue()
