@@ -36,6 +36,7 @@ void Cerebellum::Update()
 
     // refresh screen
     disp.Update();
+
     // wait 2 milliseconds before the next loop
     // for the analog-to-digital converter to settle
     // after the last reading:
