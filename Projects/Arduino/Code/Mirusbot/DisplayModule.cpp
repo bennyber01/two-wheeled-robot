@@ -21,7 +21,6 @@ uint8_t box_1[8] = {B11111,B10001,B10001,B10001,B10001,B10001,B11111};
 
 DisplayModule::DisplayModule() : lcd(0x27,20,4)  // set the LCD address to 0x27 for a 20 chars and 4 line display
 {
-    msg[0] = 0;
     lastScreenChangeTime = 0;
     lastScreenUpdateTime = 0;
 
@@ -29,9 +28,6 @@ DisplayModule::DisplayModule() : lcd(0x27,20,4)  // set the LCD address to 0x27 
 
     screenNum = -1;
     newScreenNum = 0;
-
-    communicationErrors = CE__UNKNOWN_ERROR;
-    lastCommand = CC__VOID_COMMAND;
 }
 
 DisplayModule::~DisplayModule()
@@ -74,15 +70,6 @@ void DisplayModule::Print(const MotorsSpeed & speeds)
     isUpdateScr[0] |= isUpdate;
 }
 
-void DisplayModule::Print(const CameraPosition & camPos)
-{
-    bool isUpdate = cameraPosition.azim != camPos.azim ||
-                    cameraPosition.elev != camPos.elev;
-
-    cameraPosition = camPos;
-    isUpdateScr[1] |= isUpdate;
-}
-
 void DisplayModule::Print(const FrontSensorsData & data)
 {
     bool isUpdate = frontSensorsData.LSensorDist != data.LSensorDist ||
@@ -90,7 +77,7 @@ void DisplayModule::Print(const FrontSensorsData & data)
                     frontSensorsData.RSensorDist != data.RSensorDist;
 
     frontSensorsData = data;
-    isUpdateScr[2] |= isUpdate;
+    isUpdateScr[1] |= isUpdate;
 }
 
 void DisplayModule::Print(const BumpersData & data)
@@ -99,14 +86,6 @@ void DisplayModule::Print(const BumpersData & data)
                     bumpersData.RBumper != data.RBumper;
 
     bumpersData = data;
-    isUpdateScr[2] |= isUpdate;
-}
-
-void DisplayModule::Print(const SonarData & data)
-{
-    bool isUpdate = sonarData.dist != data.dist;
-
-    sonarData = data;
     isUpdateScr[1] |= isUpdate;
 }
 
@@ -118,32 +97,7 @@ void DisplayModule::Print(const WheelsLocation & loc)
                     wheelsLocation.rightWheelLoc.y != loc.rightWheelLoc.y;
 
     wheelsLocation = loc;
-    isUpdateScr[4] |= isUpdate;
-}
-
-void DisplayModule::Print(const CommunicationCommands & command)
-{
-    bool isUpdate = lastCommand != command;
-
-    lastCommand = command;
-    isUpdateScr[5] |= isUpdate;
-}
-
-void DisplayModule::Print(const char * newMsg)
-{
-    bool isUpdate = strncmp(msg, newMsg, MAX_MESSAGE_LEN) != 0;
-
-    strncpy(msg, newMsg, MAX_MESSAGE_LEN);
-    msg[MAX_MESSAGE_LEN-1] = 0;
-    isUpdateScr[3] |= isUpdate;
-}
-
-void DisplayModule::Print(const CommunicationErrors & err)
-{
-    bool isUpdate = communicationErrors != err;
-
-    communicationErrors = err;
-    isUpdateScr[3] |= isUpdate;
+    isUpdateScr[2] |= isUpdate;
 }
 
 void DisplayModule::Update()
@@ -169,9 +123,6 @@ void DisplayModule::Update()
                 case 0:     ShowScreen0();      break;
                 case 1:     ShowScreen1();      break;
                 case 2:     ShowScreen2();      break;
-                case 3:     ShowScreen3();      break;
-                case 4:     ShowScreen4();      break;
-                case 5:     ShowScreen5();      break;
             }
             lcd.setCursor(19, 0);
             lcd.printByte(screenNum);
@@ -203,22 +154,6 @@ void DisplayModule::ShowScreen0()
 }
 
 void DisplayModule::ShowScreen1()
-{
-    lcd.setCursor(0, 0);
-    lcd.print("Camera Azim: ");
-    lcd.print(cameraPosition.azim);
-
-    lcd.setCursor(0, 1);
-    lcd.print("Camera Elev: ");
-    lcd.print(cameraPosition.elev);
-
-    lcd.setCursor(0, 3);
-    lcd.print("Sonar Dist: ");
-    lcd.print(sonarData.dist, 1);
-    lcd.print("cm");
-}
-
-void DisplayModule::ShowScreen2()
 {
     lcd.setCursor(0, 0);
     lcd.print("Bumpers [L|R]:");
@@ -256,30 +191,7 @@ void DisplayModule::ShowScreen2()
     lcd.print("cm");
 }
 
-void DisplayModule::ShowScreen3()
-{
-    lcd.setCursor(0, 0);
-    lcd.print("Message:");
-
-    lcd.setCursor(0, 1);
-    msg[MAX_MESSAGE_LEN-1]=0;
-    lcd.print(msg);
-
-    lcd.setCursor(0, 2);
-    lcd.print("Communication Error:");
-
-    lcd.setCursor(0, 3);
-    switch (communicationErrors)
-    {
-        CE__SUCCESS:                lcd.print("SUCCESS");               break;
-        CE__MODULE_NOT_INIT:        lcd.print("MODULE_NOT_INIT");       break;
-        CE__UNKNOWN_COMMAND:        lcd.print("UNKNOWN_COMMAND");       break;
-        CE__UNKNOWN_ERROR:
-        default:                    lcd.print("CE__UNKNOWN_ERROR");
-    }
-}
-
-void DisplayModule::ShowScreen4()
+void DisplayModule::ShowScreen2()
 {
     lcd.setCursor(0, 0);
     lcd.print("Wheels Location:");
@@ -306,26 +218,4 @@ void DisplayModule::ShowScreen4()
     lcd.print(",");
     lcd.print(pos.y);
     lcd.print(")");
-}
-
-void DisplayModule::ShowScreen5()
-{
-    lcd.setCursor(0, 0);
-    lcd.print("Last Command:");
-
-    lcd.setCursor(0, 1);
-    switch (lastCommand)
-    {
-        CC__GET_MOTORS_TICKS:               lcd.print("GET_MOTORS_TICKS");              break;
-        CC__SET_MOTORS_SPEED:               lcd.print("SET_MOTORS_SPEED");              break;
-        CC__SET_CAMERA_AZIM:                lcd.print("SET_CAMERA_AZIM");               break;
-        CC__SET_CAMERA_ELEV:                lcd.print("SET_CAMERA_ELEV");               break;
-        CC__SET_CAMERA_POS:                 lcd.print("SET_CAMERA_POS");                break;
-        CC__GET_FRONT_SENSORS_READING:      lcd.print("GET_FRONT_SENSORS_READING");     break;
-        CC__GET_BUMPERS_READING:            lcd.print("GET_BUMPERS_READING");           break;
-        CC__GET_SONAR_READING:              lcd.print("GET_SONAR_READING");             break;
-        CC__COMMAND_EXECUTED:               lcd.print("COMMAND_EXECUTED");              break;
-        CC__VOID_COMMAND:
-        default:                            lcd.print("UNKNOWN_COMMAND");
-    }
 }

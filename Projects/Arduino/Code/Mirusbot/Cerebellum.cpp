@@ -14,7 +14,6 @@ Cerebellum::~Cerebellum()
 void Cerebellum::Init()
 {
     disp.Init();
-    camera.Init();
     motors.Init();
     sensors.Init();
     I2CComm.Init();
@@ -32,11 +31,8 @@ void Cerebellum::Update()
     // set relevent paramt to disp.
     disp.Print(motorsTicks);
     disp.Print(motors.GetMotorsSpeed());
-    disp.Print(camera.GetCameraPosition());
     disp.Print(sensors.GetFrontSensorsData());
     disp.Print(sensors.GetBumpersData());
-    disp.Print(sensors.GetSonarData());
-    disp.Print("Not connected");
 
     // refresh screen
     disp.Update();

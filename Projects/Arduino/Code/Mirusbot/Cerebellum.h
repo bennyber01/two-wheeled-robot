@@ -5,7 +5,6 @@
 #include "CommunicationDefinitions.h"
 #include "I2CCommunicationModule.h"
 #include "DisplayModule.h"
-#include "CameraModule.h"
 #include "MotorsModule.h"
 #include "SensorsModule.h"
 #include "RobotDefinitions.h"
@@ -21,7 +20,6 @@ public:
 
 private:
     DisplayModule disp;
-    CameraModule camera;
     MotorsModule motors;
     SensorsModule sensors;
     I2CCommunicationModule I2CComm;

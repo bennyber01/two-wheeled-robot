@@ -5,8 +5,7 @@
 #include "LiquidCrystal_I2C/LiquidCrystal_I2C.h"
 #include "RobotDefinitions.h"
 
-#define MAX_NUM_OF_SCREENS  6
-#define MAX_MESSAGE_LEN 20
+#define MAX_NUM_OF_SCREENS  3
 
 class DisplayModule : public ArduinoModule
 {
@@ -18,14 +17,9 @@ public:
 
     void Print(const MotorsTicks & ticks);
     void Print(const MotorsSpeed & speeds);
-    void Print(const CameraPosition & camPos);
     void Print(const FrontSensorsData & data);
     void Print(const BumpersData & data);
-    void Print(const SonarData & data);
     void Print(const WheelsLocation & wheelsLocation);
-    void Print(const CommunicationCommands & command);
-    void Print(const CommunicationErrors & err);
-    void Print(const char * newMsg);
 
     void ShowNextScreen() { newScreenNum = (newScreenNum + 1) % MAX_NUM_OF_SCREENS; }
 
@@ -43,21 +37,13 @@ private:
 
     MotorsTicks motorsTicks;                // scr: 0
     MotorsSpeed motorsSpeed;                // scr: 0
-    SonarData sonarData;                    // scr: 1
-    CameraPosition cameraPosition;          // scr: 1
-    FrontSensorsData frontSensorsData;      // scr: 2
-    BumpersData bumpersData;                // scr: 2
-    CommunicationErrors communicationErrors;// scr: 2
-    char msg[MAX_MESSAGE_LEN];              // scr: 3
-    WheelsLocation wheelsLocation;          // scr: 4
-    CommunicationCommands lastCommand;      // scr: 5
+    FrontSensorsData frontSensorsData;      // scr: 1
+    BumpersData bumpersData;                // scr: 1
+    WheelsLocation wheelsLocation;          // scr: 2
 
     void ShowScreen0();
     void ShowScreen1();
     void ShowScreen2();
-    void ShowScreen3();
-    void ShowScreen4();
-    void ShowScreen5();
 };
 
 #endif

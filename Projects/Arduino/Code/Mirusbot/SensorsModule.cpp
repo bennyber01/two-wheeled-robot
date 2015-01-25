@@ -17,37 +17,13 @@ inline double ConvertAnalogValueToCM_SharpSensor_GP2D12(int val)
     return distance;
 }
 
-inline double ConvertAnalogValueToCM_SonarSensor(int val)
-{
-    return double(val) / double(US_ROUNDTRIP_CM);
-}
-
-inline double ConvertAnalogValueToAmpers(int val)
-{
-    return double(val) / double(US_ROUNDTRIP_CM);
-
-    // Remap the ADC value into a voltage number (5V reference)
-    double sensorValue = double(val * VOLTAGE_REF) / 1023.0;
-
-    // Follow the equation given by the INA169 datasheet to
-    // determine the current flowing through RS. Assume RL = 10k
-    // Is = (Vout x 1k) / (RS x RL)
-    double current = sensorValue / double(10 * RS);
-
-    // Output value (in amps)
-    return current;
-}
-
-SensorsModule::SensorsModule() : sonar(TRIGGER_PIN, ECHO_PIN, MAX_SONAR_SENSOR_DISTANCE) // NewPing setup of pins and maximum distance.
+SensorsModule::SensorsModule()
 {
     frontSensorsData.LSensorDist = 0.0f;
     frontSensorsData.CSensorDist = 0.0f;
     frontSensorsData.RSensorDist = 0.0f;
     bumpersData.LBumper = 0;
     bumpersData.RBumper = 0;
-    sonarData.dist = 0;
-    lastSonarUpdateTime = 0;
-    currentVal = 0.0f;
 }
 
 SensorsModule::~SensorsModule()
@@ -73,18 +49,9 @@ void SensorsModule::Update()
     //delay(2);
     UpdateFrontRightDistanceSensorValue();
     //delay(2);
-    UpdateCurrentValue();
-    //delay(2);
     bumpersData.RBumper = digitalRead(R_BUMPER_PIN);
     //delay(2);
 
-    // Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
-    unsigned long time_millisec = millis();
-    if (lastSonarUpdateTime < time_millisec - 50)
-    {
-        UpdateSonarDistanceSensorValue();
-        lastSonarUpdateTime = time_millisec;
-    }
     delay(2);
 }
 
@@ -109,19 +76,6 @@ void SensorsModule::UpdateFrontRightDistanceSensorValue()
     frontSensorsData.RSensorDist = ConvertAnalogValueToCM_SharpSensor_2D120X(filteredVal);
 }
 
-void SensorsModule::UpdateSonarDistanceSensorValue()
-{
-    unsigned int uS = sonar.ping(); // Send ping, get ping time in microseconds (uS).
-    int filteredVal = sonarDistanceSensorFilter.Filter(uS);
-    sonarData.dist = ConvertAnalogValueToCM_SonarSensor(filteredVal);
-}
-
-void SensorsModule::UpdateCurrentValue()
-{
-    int val = analogRead(CURRENT_SENSOR_PIN);                 // read the input pin
-    currentVal = ConvertAnalogValueToAmpers(val);
-}
-
 FrontSensorsData SensorsModule::GetFrontSensorsData()
 {
     return frontSensorsData;
@@ -130,14 +84,4 @@ FrontSensorsData SensorsModule::GetFrontSensorsData()
 BumpersData SensorsModule::GetBumpersData()
 {
     return bumpersData;
-}
-
-SonarData SensorsModule::GetSonarData()
-{
-    return sonarData;
-}
-
-float SensorsModule::GetCurrent()
-{
-    return currentVal;
 }
