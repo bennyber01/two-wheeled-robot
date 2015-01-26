@@ -15,7 +15,8 @@
 #define FRONT_CENTER_DISTANCE_SENSOR_PIN    A1
 #define FRONT_RIGHT_DISTANCE_SENSOR_PIN     A2
 #define L_BUMPER_PIN                        7
-#define R_BUMPER_PIN                        8
+#define C_BUMPER_PIN                        8
+#define R_BUMPER_PIN                        9
 
 // display pins
 #define DISPLAY_NEXT_SCREEN_PIN             4

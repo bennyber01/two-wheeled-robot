@@ -83,6 +83,7 @@ void DisplayModule::Print(const FrontSensorsData & data)
 void DisplayModule::Print(const BumpersData & data)
 {
     bool isUpdate = bumpersData.LBumper != data.LBumper ||
+                    bumpersData.CBumper != data.CBumper ||
                     bumpersData.RBumper != data.RBumper;
 
     bumpersData = data;
@@ -156,7 +157,8 @@ void DisplayModule::ShowScreen0()
 void DisplayModule::ShowScreen1()
 {
     lcd.setCursor(0, 0);
-    lcd.print("Bumpers [L|R]:");
+    lcd.print("Bumpers L:");
+
     if (bumpersData.LBumper)
     {
         lcd.printByte(BUMPER_ON);
@@ -166,6 +168,17 @@ void DisplayModule::ShowScreen1()
         lcd.printByte(BUMPER_OFF);
     }
 
+    lcd.print(" C:");
+    if (bumpersData.CBumper)
+    {
+        lcd.printByte(BUMPER_ON);
+    }
+    else
+    {
+        lcd.printByte(BUMPER_OFF);
+    }
+
+    lcd.print(" R:");
     if (bumpersData.RBumper)
     {
         lcd.printByte(BUMPER_ON);

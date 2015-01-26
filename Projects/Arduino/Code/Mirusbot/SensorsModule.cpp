@@ -23,6 +23,7 @@ SensorsModule::SensorsModule()
     frontSensorsData.CSensorDist = 0.0f;
     frontSensorsData.RSensorDist = 0.0f;
     bumpersData.LBumper = 0;
+    bumpersData.CBumper = 0;
     bumpersData.RBumper = 0;
 }
 
@@ -36,6 +37,7 @@ void SensorsModule::Init()
     // no need to init alanog pins for input
     // sonar pins are init in ping module
     pinMode(L_BUMPER_PIN, INPUT_PULLUP);
+    pinMode(C_BUMPER_PIN, INPUT_PULLUP);
     pinMode(R_BUMPER_PIN, INPUT_PULLUP);
 }
 
@@ -45,11 +47,13 @@ void SensorsModule::Update()
     //delay(2);
     UpdateFrontLeftDistanceSensorValue();
     //delay(2);
+    bumpersData.CBumper = digitalRead(C_BUMPER_PIN);
+    //delay(2);
     UpdateFrontCenterDistanceSensorValue();
     //delay(2);
-    UpdateFrontRightDistanceSensorValue();
-    //delay(2);
     bumpersData.RBumper = digitalRead(R_BUMPER_PIN);
+    //delay(2);
+    UpdateFrontRightDistanceSensorValue();
     //delay(2);
 
     delay(2);
