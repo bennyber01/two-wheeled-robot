@@ -661,8 +661,6 @@
 		<Unit filename="DisplayModule.cpp" />
 		<Unit filename="DisplayModule.h" />
 		<Unit filename="DistanceSensorFilter.h" />
-		<Unit filename="I2CCommunicationModule.cpp" />
-		<Unit filename="I2CCommunicationModule.h" />
 		<Unit filename="LiquidCrystal_I2C/LiquidCrystal_I2C.cpp" />
 		<Unit filename="LiquidCrystal_I2C/LiquidCrystal_I2C.h" />
 		<Unit filename="Matrix2x2.h" />
