@@ -16,7 +16,6 @@ void Cerebellum::Init()
     disp.Init();
     motors.Init();
     sensors.Init();
-    I2CComm.Init();
 }
 
 void Cerebellum::Update()

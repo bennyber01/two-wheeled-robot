@@ -1,5 +1,6 @@
 #include "cerebellum.h"
 #include <Servo.h>
+#include <Wire.h>
 
 Cerebellum cerebellum;
 
