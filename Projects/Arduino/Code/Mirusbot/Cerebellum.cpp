@@ -32,6 +32,7 @@ void Cerebellum::Update()
     disp.Print(motors.GetMotorsSpeed());
     disp.Print(sensors.GetFrontSensorsData());
     disp.Print(sensors.GetBumpersData());
+    disp.Print(robotWeelsLocation);
 
     // refresh screen
     disp.Update();
