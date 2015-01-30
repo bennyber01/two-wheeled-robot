@@ -23,6 +23,8 @@ private:
     SensorsModule sensors;
 
     WheelsLocation robotWeelsLocation;
+
+    void UpdateRobotBehaviour();
 };
 
 #endif
