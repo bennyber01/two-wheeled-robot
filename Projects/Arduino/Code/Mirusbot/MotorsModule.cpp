@@ -15,7 +15,7 @@ MotorsModule::~MotorsModule()
 
 void MotorsModule::Init()
 {
-
+//    mmx.reset();                // resets the encoder positions to zero
 }
 
 void MotorsModule::Update()
