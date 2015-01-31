@@ -27,6 +27,10 @@ private:
     void UpdateFrontLeftDistanceSensorValue();
     void UpdateFrontCenterDistanceSensorValue();
     void UpdateFrontRightDistanceSensorValue();
+
+    unsigned long lastUpdateTime_SensorL;
+    unsigned long lastUpdateTime_SensorC;
+    unsigned long lastUpdateTime_SensorR;
 };
 
 #endif
