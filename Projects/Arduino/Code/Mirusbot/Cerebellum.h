@@ -7,8 +7,9 @@
 #include "MotorsModule.h"
 #include "SensorsModule.h"
 #include "RobotDefinitions.h"
+#include "RobotBehaviour.h"
 
-class Cerebellum : public ArduinoModule
+class Cerebellum : public ArduinoModule, public RobotBehaviour
 {
 public:
     Cerebellum();
