@@ -2,10 +2,7 @@
 #define MOTORS_MODULE_H
 
 #include "CommunicationDefinitions.h"
-#include <Wire.h>               // needs to be included here for the
-                                // NXTI2CDevice to work
-//#include <NXTI2CDevice/NXTI2CDevice.h>
-//#include <NXTI2CDevice/NXTMMX.h>
+#include <NXTI2CDevice-master/NXTMMX.h>
 
 class MotorsModule : public ArduinoModule
 {
@@ -25,7 +22,7 @@ private:
     MotorsSpeed motorsSpeed;
     MotorsTicks motorsTicks;
 
- //   NXTMMX mmx;
+    NXTMMX mmx;
 };
 
 #endif

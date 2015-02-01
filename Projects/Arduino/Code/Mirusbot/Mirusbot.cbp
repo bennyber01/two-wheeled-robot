@@ -666,6 +666,11 @@
 		<Unit filename="Matrix2x2.h" />
 		<Unit filename="MotorsModule.cpp" />
 		<Unit filename="MotorsModule.h" />
+		<Unit filename="NXTI2CDevice-master/BaseNXTI2CDevice.cpp" />
+		<Unit filename="NXTI2CDevice-master/BaseNXTI2CDevice.h" />
+		<Unit filename="NXTI2CDevice-master/NXTI2CDevice.h" />
+		<Unit filename="NXTI2CDevice-master/NXTMMX.cpp" />
+		<Unit filename="NXTI2CDevice-master/NXTMMX.h" />
 		<Unit filename="RobotBehaviour.cpp" />
 		<Unit filename="RobotBehaviour.h" />
 		<Unit filename="RobotDefinitions.h" />
