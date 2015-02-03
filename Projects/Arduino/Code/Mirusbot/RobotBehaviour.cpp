@@ -25,6 +25,17 @@ void Cerebellum::UpdateRobotBehaviour()
 
     if (isHitSonthing)
     {
+        motors.StopAllMotors();
+        return;
+    }
+
+    FrontSensorsData sensorsData = sensors.GetFrontSensorsData();
+
+    bool isCloseToSomething = sensorsData.LSensorDist < 10.0 ||
+                             sensorsData.CSensorDist < 10.0 ||
+                             sensorsData.RSensorDist < 10.0;
+    if (isCloseToSomething)
+    {
         MotorsSpeed motorsSpeed;
         motorsSpeed.LMotorSpeed = motorsSpeed.RMotorSpeed = 0;
         motors.SetMotorsSpeed(motorsSpeed);
@@ -35,6 +46,4 @@ void Cerebellum::UpdateRobotBehaviour()
         motorsSpeed.LMotorSpeed = motorsSpeed.RMotorSpeed = 70;
         motors.SetMotorsSpeed(motorsSpeed);
     }
-
-    FrontSensorsData frontSensorsData = sensors.GetFrontSensorsData();
 }
