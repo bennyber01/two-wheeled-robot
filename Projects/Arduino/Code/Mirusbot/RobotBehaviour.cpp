@@ -32,8 +32,8 @@ void Cerebellum::UpdateRobotBehaviour()
     FrontSensorsData sensorsData = sensors.GetFrontSensorsData();
 
     bool isCloseToSomething = sensorsData.LSensorDist < 10.0 ||
-                             sensorsData.CSensorDist < 10.0 ||
-                             sensorsData.RSensorDist < 10.0;
+                              sensorsData.CSensorDist < 10.0 ||
+                              sensorsData.RSensorDist < 10.0;
     if (isCloseToSomething)
     {
         MotorsSpeed motorsSpeed;
