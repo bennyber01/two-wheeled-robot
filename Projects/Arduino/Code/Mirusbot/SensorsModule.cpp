@@ -82,7 +82,7 @@ void SensorsModule::UpdateFrontLeftDistanceSensorValue()
     {
         int val = analogRead(FRONT_LEFT_DISTANCE_SENSOR_PIN);    // read the input pin
         int filteredVal = frontLeftDistanceSensorFilter.Filter(val);
-        frontSensorsData.LSensorDist = ConvertAnalogValueToCM_SharpSensor_GP2D12(filteredVal);
+        frontSensorsData.LSensorDist = ConvertAnalogValueToCM_SharpSensor_GP2Y0A21(filteredVal);
         lastUpdateTime_SensorL = time_millisec;
     }
 }
@@ -94,7 +94,7 @@ void SensorsModule::UpdateFrontCenterDistanceSensorValue()
     {
         int val = analogRead(FRONT_CENTER_DISTANCE_SENSOR_PIN);    // read the input pin     - 4
         int filteredVal = frontCenterDistanceSensorFilter.Filter(val);
-        frontSensorsData.CSensorDist = ConvertAnalogValueToCM_SharpSensor_GP2Y0A21(filteredVal);
+        frontSensorsData.CSensorDist = ConvertAnalogValueToCM_SharpSensor_GP2D12(filteredVal);
         lastUpdateTime_SensorC = time_millisec;
     }
 }
